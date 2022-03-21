@@ -1,19 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Form Recruitment Process</title>
 </head>
 <body>
+
+<form th:method="Post" th:action="@{/form}">
     <label for="name">Name</label>
-    <input type="text" name="name" value="" id="name"/>
+    <input type="text" name="name" value="" id="name" required="required"/></br>
     <label for="surname">Surname</label>
-    <input type="text" name="surname" value="" id="surname"/>
+    <input type="text" name="surname" value="" id="surname" required="required"/></br>
     <label for="mail">Email</label>
-    <input type="email" name="mail" value="" id="mail"/>
+    <input type="email" name="mail" value="" id="mail"/></br>
     <label for="number">Mobile Number</label>
-    <input type="number" name="number" value="" id="number"/>
+    <input type="number" name="number" value="" id="number" required="required"/></br>
+    <label for="age">Age</label>
+    <input type="number" name="age" value="" id="age" required="required"/></br>
     <label for="desc"></label>
-    <textarea id="desc" name="desc"></textarea>
+    <textarea id="desc" name="desc" rows="4"></textarea></br>
+    <button type="submit">Submit</button>
+</form>
+
+<a th:href="@{/show}">Show All</a>
 </body>
 </html>

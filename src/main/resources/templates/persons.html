@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Persons</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>All persons</th>
+    </tr>
+    </thead>
+        <tbody>
+        <tr>
+            <form>
+                <div>Show by Phase</div>
+                <select th:name="phase">
+                    <option value="">All</option>
+                    <option th:each="phase :${phases}" th:value="${phase.name}" th:text="${phase.name}" ></option>
+                </select>
+                <button type="submit">Filter</button>
+            </form>
+        </tr>
+        <tr th:each="person : ${persons}">
+            <td>
+                Name:<th:block th:text="${person.getName()}"></th:block></br>
+                Surname:<th:block th:text="${person.getSurname()}"></th:block></br>
+                Age:<th:block th:text="${person.getAge()}"></th:block></br>
+                Phase:<th:block th:text="${person.getPhase().name}"></th:block></br>
+                <a  th:href="@{'/delete/{mail}' (mail=${person.getMail()})}">Delete</a></br></br>
+            </td>
+
+        </tr>
+        </tbody>
+</table>
+
+<a th:href="@{/form}">Add new</a>
+
+</body>
+</html>
