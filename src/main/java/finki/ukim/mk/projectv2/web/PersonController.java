@@ -30,8 +30,8 @@ public class PersonController {
     public String postForm(@RequestParam String name,
                            @RequestParam String surname,
                            @RequestParam String mail,
-                           @RequestParam int number){
-        this.personService.save(name,surname,mail,number);
+                           @RequestParam int age){
+        this.personService.save(name,surname,mail,age);
         return "redirect:/show";
     }
 
