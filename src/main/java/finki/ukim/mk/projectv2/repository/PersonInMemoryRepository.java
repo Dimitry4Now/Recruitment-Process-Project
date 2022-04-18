@@ -22,6 +22,12 @@ public class PersonInMemoryRepository {
         DataHolder.persons.add(person);
         return Optional.of(person);
     }
+    public Optional<Person> findById(Long id){
+        return DataHolder.persons.stream().filter(p->p.getId().equals(id)).findFirst();
+    }
+    public Optional<Person> findByMail(String mail){
+        return DataHolder.persons.stream().filter(p->p.getMail().equals(mail)).findFirst();
+    }
     public void delete(String email){
         DataHolder.persons.removeIf(p->p.getMail().equals(email));
     }

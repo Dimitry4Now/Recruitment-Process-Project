@@ -25,7 +25,10 @@ public class PersonServiceImpl implements PersonService {
     public List<Person> findAllByPhase(String phase) {
         return this.personInMemoryRepository.findAllByPhase(phase);
     }
-
+    @Override
+    public Optional<Person> findByMail(String mail) {
+        return this.personInMemoryRepository.findByMail(mail);
+    }
     @Override
     public Optional<Person> save(String name, String surname, String mail, int age) {
         return this.personInMemoryRepository.save(name,surname,mail,age);

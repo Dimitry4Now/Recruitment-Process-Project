@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Persons</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Info about your application by your ticket</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <th:block th:text="${ticketInfo}"></th:block>
+            </br>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/form}">Add new</a>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Recruitment Process</title>
+</head>
+<body>
+
+<form th:method="Post" th:action="@{/ticket}">
+  <label for="ticket">Enter your ticket ID (Application ID)</label>
+  <input type="text" name="ticket" value="" id="ticket" required="required"/></br>
+
+  <button type="submit">Show info for ticket</button>
+</form>
+
+</body>
+</html>

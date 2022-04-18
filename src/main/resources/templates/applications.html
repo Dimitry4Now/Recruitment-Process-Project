@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Persons</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>All applications</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="a : ${applications}">
+        <td>
+            Info:<th:block th:text="${a.showData()}"></th:block></br>
+            <a  th:href="@{'/send/{mail}' (mail=${a.getPerson().getMail()})}">Send Message</a></br></br>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/form}">Add new application</a></br>
+<a th:href="@{/ticket}">Test ticket</a>
+
+</body>
+</html>

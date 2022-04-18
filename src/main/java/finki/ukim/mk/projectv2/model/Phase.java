@@ -4,11 +4,12 @@ import lombok.Data;
 
 @Data
 public class Phase {
-    private int id;
+    private Long id;
     private String name;
     private String description;
 
     public Phase(String name, String description) {
+        this.id = (long) (Math.random() * 100);
         this.name = name;
         this.description = description;
     }

@@ -5,6 +5,9 @@
     <title>Form Recruitment Process</title>
 </head>
 <body>
+<h1>Welcome to our website</h1>
+<h2>Konkurs:Testing</h2>
+<h3>Hello, here you can apply for job-27</h3>
 
 <form th:method="Post" th:action="@{/form}">
     <label for="name">Name</label>
@@ -22,6 +25,7 @@
     <button type="submit">Submit</button>
 </form>
 
-<a th:href="@{/show}">Show All</a>
+<a th:href="@{/show}">Show All People</a></br>
+<a th:href="@{/showApplications}">Show All Applications</a>
 </body>
 </html>

@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface PersonService {
     List<Person> findAll();
     List<Person> findAllByPhase(String phase);
+    Optional<Person> findByMail(String mail);
     Optional<Person> save(String name, String surname, String mail, int age);
     void delete(String email);
 }
