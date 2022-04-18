@@ -1,11 +1,8 @@
 package finki.ukim.mk.projectv2.web;
 
-import finki.ukim.mk.projectv2.bootstrap.DataHolder;
 import finki.ukim.mk.projectv2.model.Application;
-import finki.ukim.mk.projectv2.model.Person;
-import finki.ukim.mk.projectv2.model.Phase;
 import finki.ukim.mk.projectv2.service.ApplicationService;
-import finki.ukim.mk.projectv2.service.EmailService;
+import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
 import finki.ukim.mk.projectv2.service.PersonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,19 +10,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class ApplicationController {
     private final PersonService personService;
     private final ApplicationService applicationService;
-    private final EmailService emailService;
+    private final EmailServiceImpl emailServiceImpl;
 
-    public ApplicationController(PersonService personService, ApplicationService applicationService, EmailService emailService) {
+    public ApplicationController(PersonService personService, ApplicationService applicationService, EmailServiceImpl emailServiceImpl) {
         this.personService = personService;
         this.applicationService = applicationService;
-        this.emailService = emailService;
+        this.emailServiceImpl = emailServiceImpl;
     }
     @GetMapping({"/form",""})
     public String getForm(){
@@ -44,10 +40,15 @@ public class ApplicationController {
         //Send mail after application with Application ID(ticket)
         Long personID=personService.findByMail(mail).get().getId();
         Long applicationID=applicationService.findByPersonId(personID).get().getApplicationID();
-        this.emailService.sendSimpleMessage(mail, "Recruitment process(WP-project)", "Hello "+name+
+        /*this.emailServiceImpl.sendSimpleMessage(mail, "Recruitment process(WP-project)", "Hello "+name+
                 "\n\nThank you for your application" +
                 "\n Your application ID(ticket) is "+applicationID+
-                "\n\n Recruitment process team");
+                "\n\n Recruitment process team");*/
+
+        this.emailServiceImpl.sendMessageWithAttachment(mail, "Recruitment process(WP-project)", "Hello "+name+
+                "\n\nThank you for your application" +
+                "\n Your application ID(ticket) is "+applicationID+
+                "\n\n Recruitment process team", "C:\\User\\dimit\\Desktop\\Dimitar_Betinski.pdf");
 
         return "redirect:/showApplications";
     }
