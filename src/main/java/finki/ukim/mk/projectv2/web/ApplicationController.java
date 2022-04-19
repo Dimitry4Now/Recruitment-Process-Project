@@ -48,13 +48,13 @@ public class ApplicationController {
                 "\n\n Recruitment process team");
 
         //Send mail with attachment after application with Application ID(ticket)
-        this.emailServiceImpl.sendMessageWithAttachment(mail,
-                "Recruitment process(WP-project)",
-                "Hello "+name+
-                "\n\nThank you for your application" +
-                "\n Your application ID(ticket) is "+applicationID+
-                "\n\n Recruitment process team",
-                "C:\\Users\\dimit\\Desktop\\Dimitar_Betinski.pdf");
+//        this.emailServiceImpl.sendMessageWithAttachment(mail,
+//                "Recruitment process(WP-project)",
+//                "Hello "+name+
+//                "\n\nThank you for your application" +
+//                "\n Your application ID(ticket) is "+applicationID+
+//                "\n\n Recruitment process team",
+//                "C:\\Users\\dimit\\Desktop\\Dimitar_Betinski.pdf");
 
         return "redirect:/showApplications";
     }
