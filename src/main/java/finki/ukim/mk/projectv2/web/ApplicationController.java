@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @Controller
@@ -32,7 +33,7 @@ public class ApplicationController {
     public String postForm(@RequestParam String name,
                            @RequestParam String surname,
                            @RequestParam String mail,
-                           @RequestParam int age){
+                           @RequestParam int age) throws MessagingException {
         this.personService.save(name,surname,mail,age);
         if(personService.findByMail(mail).isPresent()) {
             this.applicationService.save(personService.findByMail(mail).get());
@@ -40,15 +41,20 @@ public class ApplicationController {
         //Send mail after application with Application ID(ticket)
         Long personID=personService.findByMail(mail).get().getId();
         Long applicationID=applicationService.findByPersonId(personID).get().getApplicationID();
-        /*this.emailServiceImpl.sendSimpleMessage(mail, "Recruitment process(WP-project)", "Hello "+name+
-                "\n\nThank you for your application" +
-                "\n Your application ID(ticket) is "+applicationID+
-                "\n\n Recruitment process team");*/
 
-        this.emailServiceImpl.sendMessageWithAttachment(mail, "Recruitment process(WP-project)", "Hello "+name+
+        this.emailServiceImpl.sendSimpleMessage(mail, "Recruitment process(WP-project)", "Hello "+name+
                 "\n\nThank you for your application" +
                 "\n Your application ID(ticket) is "+applicationID+
-                "\n\n Recruitment process team", "C:\\User\\dimit\\Desktop\\Dimitar_Betinski.pdf");
+                "\n\n Recruitment process team");
+
+        //Send mail with attachment after application with Application ID(ticket)
+        this.emailServiceImpl.sendMessageWithAttachment(mail,
+                "Recruitment process(WP-project)",
+                "Hello "+name+
+                "\n\nThank you for your application" +
+                "\n Your application ID(ticket) is "+applicationID+
+                "\n\n Recruitment process team",
+                "C:\\Users\\dimit\\Desktop\\Dimitar_Betinski.pdf");
 
         return "redirect:/showApplications";
     }
