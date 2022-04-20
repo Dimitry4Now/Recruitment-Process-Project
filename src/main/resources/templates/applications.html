@@ -12,15 +12,17 @@
     </tr>
     </thead>
     <tbody>
-
+    <form method="post" th:action="@{/send/all}">
     <tr th:each="a : ${applications}">
         <td>
             Info:<th:block th:text="${a.showData()}"></th:block></br>
             <a  th:href="@{'/send/{mail}' (mail=${a.getPerson().getMail()})}">Send Message</a></br>
             <a  th:href="@{'/sendAtt/{mail}' (mail=${a.getPerson().getMail()})}">Send Message with attachment(task)</a></br></br>
+            <input type="checkbox" name="allMail" th:id="${a.getApplicationID()}">
         </td>
 
     </tr>
+    </form>
     </tbody>
 </table>
 
