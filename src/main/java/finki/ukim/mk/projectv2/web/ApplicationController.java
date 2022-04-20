@@ -2,6 +2,7 @@ package finki.ukim.mk.projectv2.web;
 
 import finki.ukim.mk.projectv2.model.Application;
 import finki.ukim.mk.projectv2.service.ApplicationService;
+import finki.ukim.mk.projectv2.service.PhaseService;
 import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
 import finki.ukim.mk.projectv2.service.PersonService;
 import org.springframework.stereotype.Controller;
@@ -18,11 +19,13 @@ public class ApplicationController {
     private final PersonService personService;
     private final ApplicationService applicationService;
     private final EmailServiceImpl emailServiceImpl;
+    private final PhaseService phaseService;
 
-    public ApplicationController(PersonService personService, ApplicationService applicationService, EmailServiceImpl emailServiceImpl) {
+    public ApplicationController(PersonService personService, ApplicationService applicationService, EmailServiceImpl emailServiceImpl, PhaseService phaseService) {
         this.personService = personService;
         this.applicationService = applicationService;
         this.emailServiceImpl = emailServiceImpl;
+        this.phaseService = phaseService;
     }
     @GetMapping({"/form",""})
     public String getForm(){
@@ -34,27 +37,29 @@ public class ApplicationController {
                            @RequestParam String surname,
                            @RequestParam String mail,
                            @RequestParam int age) throws MessagingException {
-        this.personService.save(name,surname,mail,age);
+//        this.personService.save(name,surname,mail,age);
+        this.personService.saveWithPhase(name,surname,mail,age,phaseService.findById(1L).get());
+//        this.personService.saveWithPhase(name,surname,mail,age,phaseService.findAll().get(0));
         if(personService.findByMail(mail).isPresent()) {
             this.applicationService.save(personService.findByMail(mail).get());
         }
-        //Send mail after application with Application ID(ticket)
+        //Send mail after application with App  lication ID(ticket)
         Long personID=personService.findByMail(mail).get().getId();
         Long applicationID=applicationService.findByPersonId(personID).get().getApplicationID();
 
-        this.emailServiceImpl.sendSimpleMessage(mail, "Recruitment process(WP-project)", "Hello "+name+
-                "\n\nThank you for your application" +
-                "\n Your application ID(ticket) is "+applicationID+
-                "\n\n Recruitment process team");
+//        this.emailServiceImpl.sendSimpleMessage(mail, "Recruitment process(WP-project)", "Hello "+name+
+//                "\n\nThank you for your application" +
+//                "\n Your application ID(ticket) is "+applicationID+
+//                "\n\n Recruitment process team");
 
         //Send mail with attachment after application with Application ID(ticket)
-        this.emailServiceImpl.sendMessageWithAttachment(mail,
-                "Recruitment process(WP-project)",
-                "Hello "+name+
-                "\n\nThank you for your application" +
-                "\n Your application ID(ticket) is "+applicationID+
-                "\n\n Recruitment process team",
-                "C:\\Users\\dimit\\Desktop\\Dimitar_Betinski.pdf");
+//        this.emailServiceImpl.sendMessageWithAttachment(mail,
+//                "Recruitment process(WP-project)",
+//                "Hello "+name+
+//                "\n\nThank you for your application" +
+//                "\n Your application ID(ticket) is "+applicationID+
+//                "\n\n Recruitment process team",
+//                "C:\\Users\\dimit\\Desktop\\Dimitar_Betinski.pdf");
 
         return "redirect:/showApplications";
     }

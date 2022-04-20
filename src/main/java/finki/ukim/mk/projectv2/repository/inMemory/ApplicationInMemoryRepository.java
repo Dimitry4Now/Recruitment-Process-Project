@@ -1,4 +1,4 @@
-package finki.ukim.mk.projectv2.repository;
+package finki.ukim.mk.projectv2.repository.inMemory;
 
 
 import finki.ukim.mk.projectv2.bootstrap.DataHolder;

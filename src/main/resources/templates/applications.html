@@ -12,19 +12,29 @@
     </tr>
     </thead>
     <tbody>
+    <form method="get" th:action="@{/send/all}">
+        <tr th:each="a : ${applications}">
+            <td>
+                Info:
+                <th:block th:text="${a.showData()}"></th:block>
+                <input type="checkbox" name="allMail" th:value="${a.getApplicationID()}"></br>
 
-    <tr th:each="a : ${applications}">
-        <td>
-            Info:<th:block th:text="${a.showData()}"></th:block></br>
-            <a  th:href="@{'/send/{mail}' (mail=${a.getPerson().getMail()})}">Send Message</a></br></br>
-        </td>
+                <a th:href="@{'/send/{mail}' (mail=${a.getPerson().getMail()})}">Send Message</a></br>
+                <a th:href="@{'/sendAtt/{mail}' (mail=${a.getPerson().getMail()})}">Send Message with
+                    attachment(task)</a></br></br>
 
-    </tr>
+            </td>
+
+        </tr>
+        <button type="submit">Send mail to selected</button>
+
+    </form>
     </tbody>
 </table>
 
 <a th:href="@{/form}">Add new application</a></br>
-<a th:href="@{/ticket}">Test ticket</a>
+<a th:href="@{/ticket}">Test ticket</a></br>
+<a th:href="@{/send/all}">Send mail to all</a>
 
 </body>
 </html>

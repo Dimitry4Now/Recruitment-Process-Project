@@ -22,14 +22,26 @@
                 <button type="submit">Filter</button>
             </form>
         </tr>
-        <tr th:each="person : ${persons}">
-            <td>
-                Name:<th:block th:text="${person.getName()}"></th:block></br>
-                Surname:<th:block th:text="${person.getSurname()}"></th:block></br>
-                Age:<th:block th:text="${person.getAge()}"></th:block></br>
-                Phase:<th:block th:text="${person.getPhase().name}"></th:block></br>
-                <a  th:href="@{'/delete/{mail}' (mail=${person.getMail()})}">Delete</a></br></br>
-            </td>
+            <th:block th:if="${!persons.isEmpty()}">
+
+                <tr th:each="person : ${persons}">
+                    <td>
+                        Name:
+                        <th:block th:text="${person.getName()}"></th:block>
+                        </br>
+                        Surname:
+                        <th:block th:text="${person.getSurname()}"></th:block>
+                        </br>
+                        Age:
+                        <th:block th:text="${person.getAge()}"></th:block>
+                        </br>
+                        Phase:
+                        <th:block th:text="${person.getPhase().name}"></th:block>
+                        </br>
+                        <a th:href="@{'/delete/{mail}' (mail=${person.getMail()})}">Delete</a></br></br>
+                        <a th:href="@{'/send/{mail}' (mail=${person.getMail()})}">Send Message</a></br></br>
+                    </td>
+            </th:block>
 
         </tr>
         </tbody>

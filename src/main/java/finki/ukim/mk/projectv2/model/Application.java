@@ -1,18 +1,24 @@
 package finki.ukim.mk.projectv2.model;
 import lombok.Data;
 
+import javax.persistence.*;
 import java.util.*;
 
 @Data
+@Entity
 public class Application {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applicationID;
+    @OneToOne
     private Person person;
+    @Transient
     Map<Long, List<String>> comments;
     private boolean active;
 
     public Application(Person person) {
-        this.applicationID = (long) (Math.random() * 100);
+//        this.applicationID = (long) (Math.random() * 100);
         this.person = person;
         this.comments=new HashMap<Long, List<String>>();
         this.active=true;
@@ -23,6 +29,9 @@ public class Application {
         this.comments = comments;
         this.active = true;
     }
+
+    public Application() {}
+
     public void addComment(Long phase,String commend){
         comments.putIfAbsent(phase,new ArrayList<>());
         comments.get(phase).add(commend);
