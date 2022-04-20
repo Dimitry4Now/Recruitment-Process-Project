@@ -1,6 +1,7 @@
 package finki.ukim.mk.projectv2.service.impl;
 
 import finki.ukim.mk.projectv2.model.Person;
+import finki.ukim.mk.projectv2.model.Phase;
 import finki.ukim.mk.projectv2.repository.jpa.PersonRepository;
 import finki.ukim.mk.projectv2.service.PersonService;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Optional<Person> save(String name, String surname, String mail, int age) {
         return Optional.of(this.personRepository.save(new Person(name,surname,mail,age)));
+    }
+    public Optional<Person> saveWithPhase(String name, String surname, String mail, int age, Phase phase) {
+        return Optional.of(this.personRepository.save(new Person(name,surname,mail,age,phase)));
     }
 
     @Override

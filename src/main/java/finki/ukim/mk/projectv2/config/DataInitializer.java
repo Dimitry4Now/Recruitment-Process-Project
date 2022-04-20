@@ -34,10 +34,15 @@ public class DataInitializer {
         this.phaseService.save("First","First phase");
         this.phaseService.save("Second","Second phase");
 
-        this.personService.save("Dimitar","Betinski","dimitarbetinski@gmail.com",24);
-        this.personService.save("Predrag","Spasovski","predragspasovski98@gmail.com",24);
-        this.personService.findByMail("dimitarbetinski@gmail.com").get().setPhase(phaseService.findAll().get(0));
-        this.personService.findByMail("predragspasovski98@gmail.com").get().setPhase(phaseService.findAll().get(1));
+        this.personService.saveWithPhase("Dimitar","Betinski","dimitarbetinski@gmail.com",24,
+                phaseService.findAll().get(0));
+        this.personService.saveWithPhase("Predrag","Spasovski","predragspasovski98@gmail.com",24,
+                phaseService.findAll().get(1));
+
+//        this.personService.save("Dimitar","Betinski","dimitarbetinski@gmail.com",24);
+//        this.personService.save("Predrag","Spasovski","predragspasovski98@gmail.com",24);
+//        this.personService.findByMail("dimitarbetinski@gmail.com").get().setPhase(phaseService.findAll().get(0));
+//        this.personService.findByMail("predragspasovski98@gmail.com").get().setPhase(phaseService.findAll().get(1));
 
         this.applicationService.save(personService.findByMail("dimitarbetinski@gmail.com").get());
         this.applicationService.save(personService.findByMail("predragspasovski98@gmail.com").get());
