@@ -33,7 +33,6 @@ public class EmailServiceImpl implements EmailService {
         emailSender.send(message1);
 
         System.out.println("Mail sent successfully");
-
     }
 
     @Override

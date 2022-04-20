@@ -16,7 +16,8 @@
     <tr th:each="a : ${applications}">
         <td>
             Info:<th:block th:text="${a.showData()}"></th:block></br>
-            <a  th:href="@{'/send/{mail}' (mail=${a.getPerson().getMail()})}">Send Message</a></br></br>
+            <a  th:href="@{'/send/{mail}' (mail=${a.getPerson().getMail()})}">Send Message</a></br>
+            <a  th:href="@{'/sendAtt/{mail}' (mail=${a.getPerson().getMail()})}">Send Message with attachment(task)</a></br></br>
         </td>
 
     </tr>
@@ -25,6 +26,7 @@
 
 <a th:href="@{/form}">Add new application</a></br>
 <a th:href="@{/ticket}">Test ticket</a>
+<a th:href="@{/send/all}">Send mail to all</a>
 
 </body>
 </html>

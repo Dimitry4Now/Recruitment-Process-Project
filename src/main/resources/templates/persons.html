@@ -36,7 +36,7 @@
                         <th:block th:text="${person.getAge()}"></th:block>
                         </br>
                         Phase:
-<!--                        <th:block th:text="${person.getPhase().name}"></th:block>-->
+                        <th:block th:text="${person.getPhase().name}"></th:block>
                         </br>
                         <a th:href="@{'/delete/{mail}' (mail=${person.getMail()})}">Delete</a></br></br>
                         <a th:href="@{'/send/{mail}' (mail=${person.getMail()})}">Send Message</a></br></br>
