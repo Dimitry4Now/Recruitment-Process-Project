@@ -14,5 +14,6 @@ public interface ApplicationService {
     Optional<Application> save(Person person);
     Optional<Application> findById(Long id);
     Optional<Application> findByPersonId(Long personId);
+    Optional<Application> containMailAndId(String mail,Long id);
 }
 

@@ -1,6 +1,7 @@
 package finki.ukim.mk.projectv2.web;
 
 import finki.ukim.mk.projectv2.model.Application;
+import finki.ukim.mk.projectv2.model.ApplicationNotFoundException;
 import finki.ukim.mk.projectv2.service.ApplicationService;
 import finki.ukim.mk.projectv2.service.PhaseService;
 import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
@@ -79,13 +80,14 @@ public class ApplicationController {
     }
 
     @PostMapping("/ticket")
-    public String postForm(@RequestParam int ticket, Model model){
-        if( this.applicationService.findById((long) ticket).isPresent()) {
-            Application application = this.applicationService.findById((long) ticket).get();
-            model.addAttribute("ticketInfo",application.showData());
+    public String postForm(@RequestParam String email,
+                           @RequestParam int ticket,
+                           Model model){
+        if(this.applicationService.containMailAndId(email, (long) ticket).isPresent()){
+            this.applicationService.containMailAndId(email, (long) ticket).orElseThrow(ApplicationNotFoundException::new);
+            model.addAttribute("ticketInfo",this.applicationService.containMailAndId(email, (long) ticket).get().showData());
+            return "ticketInfo";
         }
-
-        return "ticketInfo";
+        else return "redirect:/ticket";
     }
 }
-
