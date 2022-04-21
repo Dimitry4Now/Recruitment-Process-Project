@@ -69,23 +69,13 @@ public class MailController {
 
     @GetMapping("/readMail")
     public String readMail(){
-        String host = "pop.gmail.com";// change accordingly
-        String mailStoreType = "pop3";
-        String username = "recruitment.process.project@gmail.com";// change accordingly
-        String password = "zqrnakwkklanbobb";// change accordingly
-
-        this.emailServiceImpl.check(host, mailStoreType, username, password);
+        this.emailServiceImpl.check();
         return "redirect:/showApplications";
     }
 
     @GetMapping("/fetchMail")
     public String fetchMail(){
-        String host = "pop.gmail.com";// change accordingly
-        String mailStoreType = "pop3";
-        String username = "recruitment.process.project@gmail.com";// change accordingly
-        String password = "zqrnakwkklanbobb";// change accordingly
-
-        this.emailServiceImpl.fetch(host, mailStoreType, username, password);
+        this.emailServiceImpl.fetch();
         return "redirect:/showApplications";
     }
 }

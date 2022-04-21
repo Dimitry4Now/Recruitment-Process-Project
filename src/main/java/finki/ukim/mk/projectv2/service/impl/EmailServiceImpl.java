@@ -55,8 +55,12 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void check(String host, String storeType, String user, String password) {
+    public void check() {
         try {
+
+            String host = "pop.gmail.com";// change accordingly
+            String user = "recruitment.process.project@gmail.com";// change accordingly
+            String password = "zqrnakwkklanbobb";// change accordingly
 
             //create properties field
             Properties properties = new Properties();
@@ -103,9 +107,14 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void fetch(String host, String storeType, String user, String password) {
+    public void fetch() {
         try {
             // create properties field
+
+            String host = "pop.gmail.com";// change accordingly
+            String user = "recruitment.process.project@gmail.com";// change accordingly
+            String password = "zqrnakwkklanbobb";// change accordingly
+
             Properties properties = new Properties();
             properties.put("mail.store.protocol", "pop3");
             properties.put("mail.pop3.host", host);
@@ -133,12 +142,6 @@ public class EmailServiceImpl implements EmailService {
                 Message message = messages[i];
                 System.out.println("---------------------------------");
                 writePart(message);
-                String line = reader.readLine();
-                if ("YES".equals(line)) {
-                    message.writeTo(System.out);
-                } else if ("QUIT".equals(line)) {
-                    break;
-                }
             }
 
             // close the store and folder objects
