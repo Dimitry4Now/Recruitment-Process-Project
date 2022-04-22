@@ -8,6 +8,7 @@
 </head>
 <body>
 <div class="w-50 p-3">
+    <div th:text="${error}" class="text-danger"></div>
     <form class="form-inline" th:method="Post" th:action="@{/ticket}">
         <div class="form-group">
             <label for="email">Enter your email</label>

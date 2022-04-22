@@ -17,7 +17,7 @@ public class Person {
 //    @Transient
     @ManyToOne
     private Phase phase;
-    private Long phaseID;
+    private Long phaseNumber;
 
     public Person() {}
 
@@ -28,7 +28,7 @@ public class Person {
         this.mail = mail;
         this.age = age;
         this.phase = phase;
-        this.phaseID=phase.getId();
+        this.phaseNumber=phase.getPhaseNumber();
     }
     public Person(String name, String surname, String mail, int age) {
 //        this.id = (long) (Math.random() * 100);
@@ -37,8 +37,8 @@ public class Person {
         this.mail = mail;
         this.age = age;
     }
-    public void setPhaseAndPhaseId(Phase phase){
+    public void setPhaseAndPhaseNumber(Phase phase){
         this.phase=phase;
-        this.phaseID=phase.getId();
+        this.phaseNumber=phase.getPhaseNumber();
     }
 }

@@ -2,7 +2,10 @@ package finki.ukim.mk.projectv2.service.impl;
 
 import finki.ukim.mk.projectv2.model.Person;
 import finki.ukim.mk.projectv2.model.Phase;
+import finki.ukim.mk.projectv2.model.exceptions.MaximumPhaseException;
+import finki.ukim.mk.projectv2.model.exceptions.PersonNotFoundException;
 import finki.ukim.mk.projectv2.repository.jpa.PersonRepository;
+import finki.ukim.mk.projectv2.repository.jpa.PhaseRepository;
 import finki.ukim.mk.projectv2.service.PersonService;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +15,11 @@ import java.util.Optional;
 @Service
 public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
+    private final PhaseRepository phaseRepository;
 
-    public PersonServiceImpl(PersonRepository personRepository) {
+    public PersonServiceImpl(PersonRepository personRepository, PhaseRepository phaseRepository) {
         this.personRepository = personRepository;
+        this.phaseRepository = phaseRepository;
     }
 
     @Override
@@ -42,4 +47,15 @@ public class PersonServiceImpl implements PersonService {
     public void delete(String email) {
         this.personRepository.deleteByMail(email);
     }
+
+    @Override
+    public void incrementPhase(Long personId) {
+        Person person=this.personRepository.findById(personId).orElseThrow(()->new PersonNotFoundException(personId));
+        Long phaseNumber=person.getPhaseNumber();
+        Phase phase=phaseRepository.findByPhaseNumber(phaseNumber+1).orElseThrow(MaximumPhaseException::new);
+        person.setPhaseAndPhaseNumber(phase);
+        this.personRepository.save(person);
+    }
+
+
 }

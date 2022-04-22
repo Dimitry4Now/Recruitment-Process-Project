@@ -1,7 +1,8 @@
 package finki.ukim.mk.projectv2.web;
 
 import finki.ukim.mk.projectv2.model.Application;
-import finki.ukim.mk.projectv2.model.ApplicationNotFoundException;
+import finki.ukim.mk.projectv2.model.exceptions.ApplicationNotFoundException;
+import finki.ukim.mk.projectv2.model.exceptions.MaximumPhaseException;
 import finki.ukim.mk.projectv2.service.ApplicationService;
 import finki.ukim.mk.projectv2.service.PhaseService;
 import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
@@ -9,11 +10,13 @@ import finki.ukim.mk.projectv2.service.PersonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.mail.MessagingException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ApplicationController {
@@ -74,6 +77,22 @@ public class ApplicationController {
         return "applications";
     }
 
+    @GetMapping("/incrementPhase/{id}")
+    public String incrementPersonPhase(@PathVariable Integer id,Model model){
+
+        try{
+            this.personService.incrementPhase((long)id);
+        } catch (MaximumPhaseException e) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", e.getMessage());
+            List<Application> applications=applicationService.findAll();
+
+            model.addAttribute("applications",applications);
+            return "applications";
+        }
+        return "redirect:/showApplications";
+    }
+
     @GetMapping("/ticket")
     public String getTicketForm(){
         return "ticket";
@@ -83,11 +102,14 @@ public class ApplicationController {
     public String postForm(@RequestParam String email,
                            @RequestParam int ticket,
                            Model model){
-        if(this.applicationService.containMailAndId(email, (long) ticket).isPresent()){
-            this.applicationService.containMailAndId(email, (long) ticket).orElseThrow(ApplicationNotFoundException::new);
-            model.addAttribute("ticketInfo",this.applicationService.containMailAndId(email, (long) ticket).get().showData());
+        Optional<Application> application =this.applicationService.containMailAndId(email, (long) ticket);
+        if(application.isPresent()){
+            model.addAttribute("ticketInfo",application.get().showData());
             return "ticketInfo";
         }
-        else return "redirect:/ticket";
+        else {
+            model.addAttribute("error","Invalid email or ticket ID" );
+            return "ticket";
+        }
     }
 }

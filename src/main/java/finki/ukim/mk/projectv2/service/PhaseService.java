@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface PhaseService {
     List<Phase> findAll();
     Optional<Phase> findById(Long id);
-    Optional<Phase> save(String name, String description);
+    Optional<Phase> save(String name, String description,Long phaseNumber);
     void delete(Long id);
 }

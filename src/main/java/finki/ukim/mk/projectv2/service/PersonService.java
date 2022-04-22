@@ -13,4 +13,5 @@ public interface PersonService {
     Optional<Person> save(String name, String surname, String mail, int age);
     Optional<Person> saveWithPhase(String name, String surname, String mail, int age, Phase phase);
     void delete(String email);
+    void incrementPhase(Long personId);
 }

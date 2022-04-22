@@ -4,14 +4,11 @@ import finki.ukim.mk.projectv2.service.ApplicationService;
 import finki.ukim.mk.projectv2.service.DocService;
 import finki.ukim.mk.projectv2.service.PersonService;
 import finki.ukim.mk.projectv2.service.PhaseService;
-import org.h2.util.IOUtils;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -52,8 +49,10 @@ public class DataInitializer {
                 originalFileName, contentType, content);
         this.docService.saveFile(file);
 
-        this.phaseService.save("First","First phase");
-        this.phaseService.save("Second","Second phase");
+        this.phaseService.save("First","First phase",1L);
+        this.phaseService.save("Second","Second phase",2L);
+        this.phaseService.save("Third","Third phase",3L);
+        this.phaseService.save("Fourth","Fourth phase",4L);
 
         this.personService.saveWithPhase("Dimitar","Betinski","dimitarbetinski@gmail.com",24,
                 phaseService.findAll().get(0));
@@ -69,8 +68,8 @@ public class DataInitializer {
         this.applicationService.save(personService.findByMail("predragspasovski98@gmail.com").get());
 
 
-        this.personService.findByMail("dimitarbetinski@gmail.com").get().setPhaseAndPhaseId(phaseService.findAll().get(0));
-        this.personService.findByMail("predragspasovski98@gmail.com").get().setPhaseAndPhaseId(phaseService.findAll().get(1));
+        this.personService.findByMail("dimitarbetinski@gmail.com").get().setPhaseAndPhaseNumber(phaseService.findAll().get(0));
+        this.personService.findByMail("predragspasovski98@gmail.com").get().setPhaseAndPhaseNumber(phaseService.findAll().get(1));
 
 
     }

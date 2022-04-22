@@ -51,7 +51,7 @@ public class MailController {
     @GetMapping("/send/all")
     public String sendMailToAll(@RequestParam(required = false)String[] allMail)  {
         List<Person> persons=new ArrayList<>();
-        if(allMail.equals(null) || allMail.length==0){
+        if(allMail==null){
             persons=personService.findAll();
         }else{
             for(String s :allMail){

@@ -35,12 +35,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public Optional<Application> findByPersonId(Long personId) {
-        return Optional.of(this.applicationRepository.findByPersonId(personId));
+        return this.applicationRepository.findByPersonId(personId);
     }
 
     @Override
     public  Optional<Application> containMailAndId(String mail, Long id) {
-        return Optional.of(this.applicationRepository.findByPersonMailAndApplicationID(mail, id));
+        return this.applicationRepository.findByPersonMailAndApplicationID(mail, id);
     }
 }
 

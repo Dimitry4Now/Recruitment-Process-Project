@@ -27,8 +27,8 @@ public class PhaseServiceImpl implements PhaseService {
     }
 
     @Override
-    public Optional<Phase> save(String name, String description) {
-        return Optional.of(this.phaseRepository.save(new Phase(name,description)));
+    public Optional<Phase> save(String name, String description,Long phaseNumber) {
+        return Optional.of(this.phaseRepository.save(new Phase(name,description,phaseNumber)));
     }
 
     @Override

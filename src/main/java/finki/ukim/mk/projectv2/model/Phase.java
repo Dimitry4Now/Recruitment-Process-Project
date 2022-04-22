@@ -15,12 +15,12 @@ public class Phase {
     private Long id;
     private String name;
     private String description;
+    private Long phaseNumber;
 
     public Phase() {}
-
-    public Phase(String name, String description) {
-//        this.id = (long) (Math.random() * 100);
+    public Phase(String name, String description, Long phaseNumber) {
         this.name = name;
         this.description = description;
+        this.phaseNumber = phaseNumber;
     }
 }
