@@ -6,7 +6,7 @@
     <title>Form Recruitment Process</title>
 </head>
 <body>
-<div class="container yeah">
+<!--<div class="d-flex justify-content-center align-items-center">
 <h1>Welcome to our website</h1>
 <h2>Konkurs:Testing</h2>
 <h3>Hello, here you can apply for job-27</h3>
@@ -30,25 +30,57 @@
     <label for="age" class="form-label">Age</label>
     <input type="number" name="age" value="" id="age" required="required" class="form-control"/>
     <div class="form-outline mb-4">
-    <label for="desc" class="form-label"></label>
+    <label for="desc" class="form-label">Description</label>
     <textarea id="desc" name="desc" rows="4" class="form-control"></textarea>
     </div>
     <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
 </form>
 <a th:href="@{/show}">Show All People</a></br>
 <a th:href="@{/showApplications}">Show All Applications</a>
+</div>-->
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="w-50 card text-center">
+        <div class="card-header">
+            <h3>Welcome to our website</h3>
+            <h3>Konkurs:Testing</h3>
+            <h3>Hello, here you can apply for job-27</h3>
+        </div>
+        <form th:method="Post" th:action="@{/form}">
+        <div class="card-body">
+            <h4 class=" m-2 t-3" >
+                <label for="name" class="form-label">Name</label>
+                <input type="text" name="name" value="" id="name" required="required" class="form-control"/>
+            </h4>
+            <h4 class=" m-2 t-3" >
+                <label for="surname" class="form-label">Surname</label>
+                <input type="text" name="surname" value="" id="surname" required="required" class="form-control"/>
+            </h4>
+            <h4 class=" m-2 t-3" >
+                <label for="mail" class="form-label">Email</label>
+                <input type="email" name="mail" value="" id="mail" class="form-control"/>
+            </h4>
+            <h4 class=" m-2 t-3" >
+                <label for="number" class="form-label">Mobile Number</label>
+                <input type="text" name="number" value="" id="number" required="required" class="form-control"/>
+            </h4>
+            <h4>
+                <label for="age" class="form-label">Age</label>
+                <input type="number" name="age" value="" id="age" required="required" class="form-control"/>
+            </h4>
+            <h4>
+                <label for="desc" class="form-label">Description</label>
+                <textarea id="desc" name="desc" rows="4" class="form-control"></textarea>
+            </h4>
+            <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+        </div>
+        </form>
+        <div class="card-footer text-muted">
+            Recruitment Process Project
+        </div>
+    </div>
 </div>
 </body>
 <style>
-    body{
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .yeah{
-        width: 100%;
-        height: auto;
-        margin-left: 175%;
-    }
 </style>
 </html>

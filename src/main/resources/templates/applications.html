@@ -60,6 +60,8 @@
                         <div>
                             <button type="submit" class="btn btn-primary">Send mail to selected
                             </button>
+                            <button type="button" id="selAll" name="selAll" class="btn btn-primary">Select all
+                            </button>
                         </div>
                     </form>
                     </tbody>
@@ -75,16 +77,24 @@
                     <a href="/ticket" class="btn btn btn-info">
                         Test ticket
                     </a>
-                    <a href="/send/all" class="btn btn-info">
+                    <!--<a href="/send/all" class="btn btn-info">
                         Send mail to all
-                    </a>
+                    </a>-->
                 </div>
             </div>
         </div>
     </div>
 </div>
 </div>
-
+<script>
+    var button = document.getElementById("selAll")
+    button.onclick = function () {
+        var inputs = document.querySelectorAll("input[type='checkbox']")
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].checked = true;
+        }
+    }
+</script>
 
 </body>
 </html>

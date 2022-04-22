@@ -8,12 +8,30 @@
 </head>
 <body>
 
-<div class="p-3 m-3">
+<!--<div class="p-3 m-3">
     <h2>Info about your application by your ticket</h2>
     <br>
     <h4 class=" m-2 t-3" >
         <th:block th:text="${ticketInfo}"></th:block>
     </h4>
+    <a href="/ticket" class="btn btn-primary">Go back</a>
+</div>-->
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="w-50 card text-center">
+            <div class="card-header">
+                Info about your application by your ticket
+            </div>
+            <div class="card-body">
+                <h4 class=" m-2 t-3" >
+                    <th:block th:text="${ticketInfo}"></th:block>
+                </h4>
+                <a href="/ticket" class="btn btn-primary">Go back</a>
+            </div>
+        <div class="card-footer text-muted">
+            Recruitment Process Project
+        </div>
+    </div>
 </div>
 
 </body>
