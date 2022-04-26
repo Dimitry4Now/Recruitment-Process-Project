@@ -55,6 +55,12 @@
                                         <i class="fa fa-trash">Next phase</i>
                                     </a>
                                 </th:block>
+                                <th:block >
+                                    <a th:href="@{'/drop/{id}' (id=${ap.getApplicationID()})}"
+                                       class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash">Drop</i>
+                                    </a>
+                                </th:block>
                             </td>
                         </tr>
                         <div>
@@ -87,10 +93,10 @@
 </div>
 </div>
 <script>
-    var button = document.getElementById("selAll")
+    const button = document.getElementById("selAll");
     button.onclick = function () {
-        var inputs = document.querySelectorAll("input[type='checkbox']")
-        for (var i = 0; i < inputs.length; i++) {
+        const inputs = document.querySelectorAll("input[type='checkbox']");
+        for (let i = 0; i < inputs.length; i++) {
             inputs[i].checked = true;
         }
     }

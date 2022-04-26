@@ -43,7 +43,7 @@ public class MailController {
                         "\n\nThank you for your application" +
                         "\n\n Recruitment process team",
 //                "..\\bootstrap\\task1.pdf");
-                "C:\\Fakultet__________JAVA\\Projectv2\\src\\main\\java\\finki\\ukim\\mk\\projectv2\\bootstrap\\task1.pdf");
+                "src/main/java/finki/ukim/mk/projectv2/bootstrap/task1.pdf");
 
 
         return "redirect:/showApplications";
@@ -52,7 +52,9 @@ public class MailController {
     public String sendMailToAll(@RequestParam(required = false)String[] allMail)  {
         List<Person> persons=new ArrayList<>();
         if(allMail==null){
-            persons=personService.findAll();
+            //persons=personService.findAll();
+            System.out.println("Oopsie, you selected nobody !");
+            return "redirect:/showApplications";
         }else{
             for(String s :allMail){
                 persons.add(applicationService.findById(Long.parseLong(s)).get().getPerson());

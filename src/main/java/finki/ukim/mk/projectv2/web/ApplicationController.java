@@ -1,8 +1,6 @@
 package finki.ukim.mk.projectv2.web;
 
 import finki.ukim.mk.projectv2.model.Application;
-import finki.ukim.mk.projectv2.model.exceptions.ApplicationNotFoundException;
-import finki.ukim.mk.projectv2.model.exceptions.MaximumPhaseException;
 import finki.ukim.mk.projectv2.service.ApplicationService;
 import finki.ukim.mk.projectv2.service.PhaseService;
 import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
@@ -77,22 +75,6 @@ public class ApplicationController {
         return "applications";
     }
 
-    @GetMapping("/incrementPhase/{id}")
-    public String incrementPersonPhase(@PathVariable Integer id,Model model){
-
-        try{
-            this.personService.incrementPhase((long)id);
-        } catch (MaximumPhaseException e) {
-            model.addAttribute("hasError", true);
-            model.addAttribute("error", e.getMessage());
-            List<Application> applications=applicationService.findAll();
-
-            model.addAttribute("applications",applications);
-            return "applications";
-        }
-        return "redirect:/showApplications";
-    }
-
     @GetMapping("/ticket")
     public String getTicketForm(){
         return "ticket";
@@ -111,5 +93,11 @@ public class ApplicationController {
             model.addAttribute("error","Invalid email or ticket ID" );
             return "ticket";
         }
+    }
+
+    @GetMapping("/drop/{id}")
+    public String dropApplication(@PathVariable Long id){
+        this.applicationService.dropApplication(id);
+        return "redirect:/showApplications";
     }
 }

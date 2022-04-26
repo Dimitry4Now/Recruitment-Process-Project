@@ -1,8 +1,10 @@
 package finki.ukim.mk.projectv2.web;
 
 import finki.ukim.mk.projectv2.bootstrap.DataHolder;
+import finki.ukim.mk.projectv2.model.Application;
 import finki.ukim.mk.projectv2.model.Person;
 import finki.ukim.mk.projectv2.model.Phase;
+import finki.ukim.mk.projectv2.model.exceptions.MaximumPhaseException;
 import finki.ukim.mk.projectv2.service.ApplicationService;
 import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
 import finki.ukim.mk.projectv2.service.PersonService;
@@ -46,10 +48,20 @@ public class PersonController {
         return "redirect:/show";
     }
 
-//    TODO:Increment phase to Person (new form with comment?)
-//    @GetMapping("/nextPhase/{id}")
-//    public String nextPhase(@PathVariable String id){
-//        return "redirect:/show";
-//    }
+    @GetMapping("/incrementPhase/{id}")
+    public String incrementPersonPhase(@PathVariable Integer id,Model model){
+
+        try{
+            this.personService.incrementPhase((long)id);
+        } catch (MaximumPhaseException e) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", e.getMessage());
+            List<Application> applications=applicationService.findAll();
+
+            model.addAttribute("applications",applications);
+            return "applications";
+        }
+        return "redirect:/showApplications";
+    }
 
 }

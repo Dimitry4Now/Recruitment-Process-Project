@@ -42,5 +42,12 @@ public class ApplicationServiceImpl implements ApplicationService {
     public  Optional<Application> containMailAndId(String mail, Long id) {
         return this.applicationRepository.findByPersonMailAndApplicationID(mail, id);
     }
+
+    @Override
+    public void dropApplication(Long id) {
+        Application application = this.applicationRepository.findById(id).get();
+        application.setActive(false);
+        this.applicationRepository.save(application);
+    }
 }
 
