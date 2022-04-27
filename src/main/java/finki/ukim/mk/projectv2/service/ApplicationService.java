@@ -11,6 +11,7 @@ import java.util.Optional;
 @Service
 public interface ApplicationService {
     List<Application> findAll();
+    List<Application> findAllByPhase(Long phaseNumber);
     Optional<Application> save(Person person);
     Optional<Application> findById(Long id);
     Optional<Application> findByPersonId(Long personId);

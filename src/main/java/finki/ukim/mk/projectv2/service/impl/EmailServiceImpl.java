@@ -76,7 +76,7 @@ public class EmailServiceImpl implements EmailService {
 
         emailSender.send(mimeMessage);
 
-        System.out.println("Mail with attachment2 sent successfully");
+        System.out.println("Random Task send");
 
         Files.delete(path);   //delete temp file
     }

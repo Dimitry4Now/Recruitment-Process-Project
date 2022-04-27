@@ -1,7 +1,9 @@
 package finki.ukim.mk.projectv2.web;
 
+import finki.ukim.mk.projectv2.bootstrap.DataHolder;
 import finki.ukim.mk.projectv2.model.Application;
 import finki.ukim.mk.projectv2.model.Person;
+import finki.ukim.mk.projectv2.model.Phase;
 import finki.ukim.mk.projectv2.service.ApplicationService;
 import finki.ukim.mk.projectv2.service.PhaseService;
 import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
@@ -69,11 +71,18 @@ public class ApplicationController {
     }
 
     @GetMapping("/showApplications")
-    public String showAllApplications(Model model){
+    public String showAllApplications(@RequestParam(required = false) Long phase,Model model){
 
-        List<Application> applications=applicationService.findAll();
+        List<Application> applications;
+        List<Phase> phases=this.phaseService.findAll();
+
+        if(phase==null){
+            applications=applicationService.findAll();
+        }
+        else  applications=applicationService.findAllByPhase(phase);
 
         model.addAttribute("applications",applications);
+        model.addAttribute("phases",phases);
         return "applications";
     }
 

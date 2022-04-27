@@ -16,6 +16,16 @@
 
 <div class="container mb-4">
     <div class="row">
+
+        <form>
+            <div>Show by Phase</div>
+            <select th:name="phase" class="w-25 form-select form-select-sm" aria-label=".form-select-sm example">
+                <option value="">All</option>
+                <option th:each="phase :${phases}" th:value="${phase.getPhaseNumber()}" th:text="${phase.getName()}" ></option>
+            </select>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+
         <div class="col-12" th:if="${applications.size() > 0}">
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -29,7 +39,7 @@
                     <tbody>
                     <div th:text="${error}" class="text-danger"></div>
                     <div th:text="${param.error}" class="text-danger"></div>
-                    <form method="get" th:action="@{/send/all}">
+                    <form method="get" th:action="@{/mailFormAll}">
                         <tr th:each="ap : ${applications}" class="product">
                             <td th:text="${ap.showData()}"></td>
                             <td>
@@ -68,6 +78,8 @@
                             <button type="submit" class="btn btn-primary">Send mail to selected
                             </button>
                             <button type="submit" formaction="/drop/all" class="btn btn-primary">Drop all selected
+                            </button>
+                            <button type="submit" formaction="/sendtask/all" class="btn btn-primary">Send random task selected
                             </button>
                             <button type="button" id="selAll" name="selAll" class="btn btn-primary">Select all
                             </button>

@@ -27,6 +27,7 @@
                     <input type="file" name="attachment" multiple class="custom-file-input" id="attachment" aria-describedby="customFileInput">
                 </h4>
                 <input type="text" name="mail" th:value="${mail}" hidden/>
+                <input type="text" name="mails" th:value="${mails}" hidden/>
                 <button type="submit" class="btn btn-primary btn-block mb-4">Send</button>
                 <a th:href="@{'/showApplications'}"
                    class="btn btn-secondary btn-block mb-4">

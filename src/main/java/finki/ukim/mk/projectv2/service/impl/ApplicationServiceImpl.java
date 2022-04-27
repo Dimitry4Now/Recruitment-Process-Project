@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -23,6 +24,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<Application> findAll() {
         return this.applicationRepository.findAll();
+    }
+
+    @Override
+    public List<Application> findAllByPhase(Long phaseNumber) {
+        return this.applicationRepository.findAll().stream()
+                .filter(a->a.getPerson().getPhaseNumber().equals(phaseNumber))
+                .collect(Collectors.toList());
     }
 
     @Override

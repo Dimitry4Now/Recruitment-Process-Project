@@ -39,19 +39,60 @@ public class MailController {
         model.addAttribute("mail",mail);
         return "mailForm";
     }
+    @GetMapping("/mailFormAll")
+    public String ShowMailFormAll(@RequestParam(required = false) String allMail,Model model) {
+        model.addAttribute("mails",allMail);
+        model.addAttribute("mail","All selected");
+        if(allMail==null){
+            System.out.println("Oopsie, you selected nobody !");
+            return "redirect:/showApplications?error=Oopsie, you selected nobody !";
+        }
+        return "mailForm";
+    }
+//    @PostMapping("/send")
+//    public String send(@RequestParam String subject,
+//                       @RequestParam String body,
+//                       @RequestParam String mail,
+//                       @RequestParam(required = false) MultipartFile[] attachment) {
+////        String name= personService.findByMail(mail).orElseThrow(()->new PersonWithMailNotFoundException(mail)).getName();
+//        if(this.personService.findByMail(mail).isPresent()){
+//            String name=this.personService.findByMail(mail).get().getName();
+//            //TODO: sendMail with attachment if uploaded
+//            this.emailServiceImpl.sendSimpleMessage(mail, subject,"Hello"+name+"\n"+ body+
+//                    "\n Recruitment process team");
+//            return "redirect:/showApplications";
+//        }
+//        return "redirect:/showApplications?error=NotValidMail";
+//    }
     @PostMapping("/send")
     public String send(@RequestParam String subject,
                        @RequestParam String body,
                        @RequestParam String mail,
+                       @RequestParam(required = false) String mails,
                        @RequestParam(required = false) MultipartFile[] attachment) {
-//        String name= personService.findByMail(mail).orElseThrow(()->new PersonWithMailNotFoundException(mail)).getName();
-        if(this.personService.findByMail(mail).isPresent()){
-            String name=this.personService.findByMail(mail).get().getName();
-            //TODO: sendMail with attachment if uploaded
-            this.emailServiceImpl.sendSimpleMessage(mail, subject,"Hello"+name+"\n"+ body+
-                    "\n Recruitment process team");
+        if(mails.equals("")) {
+            if (this.personService.findByMail(mail).isPresent()) {
+                String name = this.personService.findByMail(mail).get().getName();
+                //TODO: sendMail with attachment if uploaded
+                this.emailServiceImpl.sendSimpleMessage(mail, subject, "Hello " + name + "\n" + body +
+                        "\n Recruitment process team");
+                return "redirect:/showApplications";
+            }
+            else return "redirect:/showApplications?error=NotValidMail";
         }
-        return "redirect:/showApplications?error=NotValidMail";
+        else {
+            List<Person> persons=new ArrayList<>();
+                for (String s : mails.split(",")) {
+                    persons.add(applicationService.findById(Long.parseLong(s)).get().getPerson());
+                }
+
+            for (Person p :
+                    persons) {
+                this.emailServiceImpl.sendSimpleMessage(p.getMail(), subject, "Hello " + p.getName() + "\n" + body +
+                        "\n Recruitment process team");
+            }
+            return "redirect:/showApplications";
+        }
     }
 
     @GetMapping("/send/{mail}")
@@ -90,6 +131,30 @@ public class MailController {
 
         return "redirect:/showApplications";
     }
+
+    @GetMapping("/sendtask/all")g
+    public String sendRandomTaskToSelected(@RequestParam(required = false) String[] allMail) throws MessagingException, IOException {
+        List<Person> persons = new ArrayList<>();
+        if (allMail == null) {
+            System.out.println("Oopsie, you selected nobody !");
+            return "redirect:/showApplications?error=Oopsie, you selected nobody !";
+        } else {
+            for (String s : allMail) {
+                persons.add(applicationService.findById(Long.parseLong(s)).get().getPerson());
+            }
+        }
+        for (Person p : persons) {
+            Doc doc = this.docService.getFile(2).get(); //todo: get Random task
+            byte[] docData = doc.getData();     //bytes of random file (from DB)
+            this.emailServiceImpl.sendTask(p.getMail(),
+                    "Recruitment process(WP-project)",
+                    "Hello " + p.getName() +
+                            "\n\nSolve the task" +
+                            "\n\n Recruitment process team", docData);
+        }
+        return "redirect:/showApplications";
+    }
+
     @GetMapping("/send/all")
     public String sendMailToSelected(@RequestParam(required = false)String[] allMail)  {
         List<Person> persons=new ArrayList<>();
@@ -109,6 +174,7 @@ public class MailController {
         }
         return "redirect:/showApplications";
     }
+
 
     @GetMapping("/readMail")
     public String readMail(){
