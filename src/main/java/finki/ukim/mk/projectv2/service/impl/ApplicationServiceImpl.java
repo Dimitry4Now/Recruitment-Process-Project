@@ -3,6 +3,8 @@ package finki.ukim.mk.projectv2.service.impl;
 
 import finki.ukim.mk.projectv2.model.Application;
 import finki.ukim.mk.projectv2.model.Person;
+import finki.ukim.mk.projectv2.model.exceptions.ApplicationNotFoundException;
+import finki.ukim.mk.projectv2.model.exceptions.PersonNotFoundException;
 import finki.ukim.mk.projectv2.repository.jpa.ApplicationRepository;
 import finki.ukim.mk.projectv2.service.ApplicationService;
 import org.springframework.stereotype.Service;
@@ -45,9 +47,19 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void dropApplication(Long id) {
-        Application application = this.applicationRepository.findById(id).get();
+        Application application = this.applicationRepository.findById(id).orElseThrow(
+                ApplicationNotFoundException::new);
         application.setActive(false);
         this.applicationRepository.save(application);
     }
+
+    @Override
+    public void dropApplicationByPersonId(Long personId) {
+        Application application=this.applicationRepository.findByPersonId(personId).orElseThrow(
+                ()-> new PersonNotFoundException(personId));
+        application.setActive(false);
+        this.applicationRepository.save(application);
+    }
+
 }
 

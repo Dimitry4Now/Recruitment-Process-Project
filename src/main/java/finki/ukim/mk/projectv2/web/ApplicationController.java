@@ -1,6 +1,7 @@
 package finki.ukim.mk.projectv2.web;
 
 import finki.ukim.mk.projectv2.model.Application;
+import finki.ukim.mk.projectv2.model.Person;
 import finki.ukim.mk.projectv2.service.ApplicationService;
 import finki.ukim.mk.projectv2.service.PhaseService;
 import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.mail.MessagingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,6 +100,28 @@ public class ApplicationController {
     @GetMapping("/drop/{id}")
     public String dropApplication(@PathVariable Long id){
         this.applicationService.dropApplication(id);
+        return "redirect:/showApplications";
+    }
+
+    @GetMapping("/drop/all")
+    public String dropAll(@RequestParam(required = false)String[] allMail)  {
+        List<Person> persons=new ArrayList<>();
+        if(allMail==null){
+            System.out.println("Oopsie, you selected nobody !");
+            return "redirect:/showApplications?error=Oopsie, you selected nobody !";
+        }else{
+            for(String s :allMail){
+                persons.add(applicationService.findById(Long.parseLong(s)).get().getPerson());
+            }
+        }
+
+        for (Person p : persons) {
+            try {
+                this.applicationService.dropApplicationByPersonId(p.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return "redirect:/showApplications";
     }
 }

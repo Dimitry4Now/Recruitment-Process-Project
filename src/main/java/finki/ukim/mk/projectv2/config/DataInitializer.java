@@ -36,7 +36,7 @@ public class DataInitializer {
 //
 //        Person p1=new Person("Dimitar","Betinski","dimitarbetinski@gmail.com",24,first);
 //        Person p2=new Person("Predrag","Spasovski","predragspasovski98@gmail.com",24,second);
-        Path path = Paths.get("C:\\Fakultet__________JAVA\\Projectv2\\src\\main\\java\\finki\\ukim\\mk\\projectv2\\bootstrap\\task1.pdf");
+        Path path = Paths.get("src/main/java/finki/ukim/mk/projectv2/bootstrap/task1.pdf");
         String name = "file.txt";
         String originalFileName = "task1.pdf";
         String contentType = "application/pdf";
@@ -48,6 +48,19 @@ public class DataInitializer {
         MultipartFile file = new MockMultipartFile(name,
                 originalFileName, contentType, content);
         this.docService.saveFile(file);
+
+        Path path1 = Paths.get("src/main/java/finki/ukim/mk/projectv2/bootstrap/task2.txt");
+        String name1 = "file2.txt";
+        String originalFileName1 = "task2.txt";
+        String contentType1 = "text/plain";
+        byte[] content1 = null;
+        try {
+            content1 = Files.readAllBytes(path1);
+        } catch (final IOException e) {
+        }
+        MultipartFile file1 = new MockMultipartFile(name1,
+                originalFileName1, contentType1, content1);
+        this.docService.saveFile(file1);
 
         this.phaseService.save("First","First phase",1L);
         this.phaseService.save("Second","Second phase",2L);

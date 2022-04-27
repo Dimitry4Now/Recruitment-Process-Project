@@ -28,6 +28,7 @@
                     </thead>
                     <tbody>
                     <div th:text="${error}" class="text-danger"></div>
+                    <div th:text="${param.error}" class="text-danger"></div>
                     <form method="get" th:action="@{/send/all}">
                         <tr th:each="ap : ${applications}" class="product">
                             <td th:text="${ap.showData()}"></td>
@@ -36,15 +37,15 @@
                             </td>
                             <td class="text-right">
                                 <th:block>
-                                    <a th:href="@{'/send/{mail}' (mail=${ap.getPerson().getMail()})}"
-                                       class="btn btn-sm btn-secondary">
+                                    <a th:href="@{'/mailform/{mail}' (mail=${ap.getPerson().getMail()})}"
+                                       class="btn btn-sm btn-secondary" >
                                         <i class="fa fa-trash">Send message</i>
                                     </a>
                                 </th:block>
                                 <th:block>
-                                    <a th:href="@{'/sendAtt/{mail}' (mail=${ap.getPerson().getMail()})}"
+                                    <a th:href="@{'/sendtask/{mail}' (mail=${ap.getPerson().getMail()})}"
                                        class="btn btn-sm btn-secondary">
-                                        <i class="fa fa-trash">Send Message with attachment(task)</i>
+                                        <i class="fa fa-trash">Send random task</i>
                                     </a>
                                 </th:block>
 
@@ -65,6 +66,8 @@
                         </tr>
                         <div>
                             <button type="submit" class="btn btn-primary">Send mail to selected
+                            </button>
+                            <button type="submit" formaction="/drop/all" class="btn btn-primary">Drop all selected
                             </button>
                             <button type="button" id="selAll" name="selAll" class="btn btn-primary">Select all
                             </button>

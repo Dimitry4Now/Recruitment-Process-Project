@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import javax.mail.*;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Properties;
 
@@ -52,6 +55,30 @@ public class EmailServiceImpl implements EmailService {
         emailSender.send(mimeMessage);
 
         System.out.println("Mail with attachment sent successfully");
+    }
+@Override
+    public void sendTask(String to, String subject, String body, byte[] data) throws MessagingException, IOException {
+        MimeMessage mimeMessage = emailSender.createMimeMessage();
+
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+        mimeMessageHelper.setFrom("recruitment.process.project@gmail.com");
+        mimeMessageHelper.setTo(to);
+        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setText(body);
+
+        Path path= Paths.get("src/main/java/finki/ukim/mk/projectv2/bootstrap/tempFile.txt"); //Create temp file
+        Files.write(path,data);    //From database to temporary file
+
+        FileSystemResource fileSystemResource = new FileSystemResource("src/main/java/finki/ukim/mk/projectv2/bootstrap/tempFile.txt");
+
+        mimeMessageHelper.addAttachment(fileSystemResource.getFilename(), fileSystemResource);
+
+        emailSender.send(mimeMessage);
+
+        System.out.println("Mail with attachment2 sent successfully");
+
+        Files.delete(path);   //delete temp file
     }
 
     @Override
