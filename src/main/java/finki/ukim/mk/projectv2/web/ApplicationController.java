@@ -1,10 +1,10 @@
 package finki.ukim.mk.projectv2.web;
 
-import finki.ukim.mk.projectv2.bootstrap.DataHolder;
 import finki.ukim.mk.projectv2.model.Application;
 import finki.ukim.mk.projectv2.model.Person;
 import finki.ukim.mk.projectv2.model.Phase;
 import finki.ukim.mk.projectv2.service.ApplicationService;
+import finki.ukim.mk.projectv2.service.CommentService;
 import finki.ukim.mk.projectv2.service.PhaseService;
 import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
 import finki.ukim.mk.projectv2.service.PersonService;
@@ -26,12 +26,14 @@ public class ApplicationController {
     private final ApplicationService applicationService;
     private final EmailServiceImpl emailServiceImpl;
     private final PhaseService phaseService;
+    private final CommentService commentService;
 
-    public ApplicationController(PersonService personService, ApplicationService applicationService, EmailServiceImpl emailServiceImpl, PhaseService phaseService) {
+    public ApplicationController(PersonService personService, ApplicationService applicationService, EmailServiceImpl emailServiceImpl, PhaseService phaseService, CommentService commentService) {
         this.personService = personService;
         this.applicationService = applicationService;
         this.emailServiceImpl = emailServiceImpl;
         this.phaseService = phaseService;
+        this.commentService = commentService;
     }
     @GetMapping({"/form",""})
     public String getForm(){
@@ -97,13 +99,50 @@ public class ApplicationController {
                            Model model){
         Optional<Application> application =this.applicationService.containMailAndId(email, (long) ticket);
         if(application.isPresent()){
-            model.addAttribute("ticketInfo",application.get().showData());
+            model.addAttribute("ticketInfo",application.get().showDataTicket());
             return "ticketInfo";
         }
         else {
             model.addAttribute("error","Invalid email or ticket ID" );
             return "ticket";
         }
+    }
+
+    @GetMapping("/comment/{id}")
+    public String showCommentForm(@PathVariable("id") String personId, Model model) {
+        model.addAttribute("personId", personId);
+        return "commentForm";
+    }
+
+    @GetMapping("/commentdrop/{id}")
+    public String showCommentFormDrop(@PathVariable("id") String personId, Model model) {
+        model.addAttribute("personId", personId);
+        model.addAttribute("drop", true);
+        return "commentForm";
+    }
+
+    @PostMapping(value = "/comment", params = "next")  //button->name=next
+    public String saveCommentPhase(@RequestParam String comment,
+                                   @RequestParam Long personId) {
+        Application personApp = this.applicationService.findByPersonId(personId).get();
+
+        this.commentService.save(personApp, personApp.getPerson().getPhaseNumber(), comment, "Admin");
+        try {
+            this.personService.incrementPhase(personId);
+        } catch (Exception e) {
+            return "redirect:/showApplications?error=max phase Comment saved to last phase(4)";
+        }
+        return "redirect:/showApplications";
+    }
+
+    @PostMapping(value = "/comment", params = "drop")  //button->name=drop
+    public String saveCommentPhaseDrop(@RequestParam String comment,
+                                       @RequestParam Long personId) {
+        Application personApp = this.applicationService.findByPersonId(personId).get();
+
+        this.commentService.save(personApp, personApp.getPerson().getPhaseNumber(), comment, "Admin");
+        this.applicationService.dropApplication(personApp.getApplicationID());
+        return "redirect:/showApplications";
     }
 
     @GetMapping("/drop/{id}")

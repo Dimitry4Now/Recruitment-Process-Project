@@ -104,11 +104,11 @@ public class MailController {
     }
     @GetMapping("/sendAtt/{mail}")
     public String sendAtt(@PathVariable String mail) throws MessagingException {
-        String name= personService.findByMail(mail).get().getName();
+        String name = personService.findByMail(mail).get().getName();
 
         this.emailServiceImpl.sendMessageWithAttachment(mail,
                 "Recruitment process(WP-project)",
-                "Hello "+name+
+                "Hello " + name +
                         "\n\nThank you for your application" +
                         "\n\n Recruitment process team",
                 "src/main/java/finki/ukim/mk/projectv2/bootstrap/task1.pdf");
@@ -132,7 +132,7 @@ public class MailController {
         return "redirect:/showApplications";
     }
 
-    @GetMapping("/sendtask/all")g
+    @GetMapping("/sendtask/all")
     public String sendRandomTaskToSelected(@RequestParam(required = false) String[] allMail) throws MessagingException, IOException {
         List<Person> persons = new ArrayList<>();
         if (allMail == null) {

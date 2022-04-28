@@ -61,13 +61,15 @@
 
 
                                 <th:block >
-                                    <a th:href="@{'/incrementPhase/{id}' (id=${ap.getPerson().getId()})}"
+<!--                                    <a th:href="@{'/incrementPhase/{id}' (id=${ap.getPerson().getId()})}"-->
+                                    <a th:href="@{'/comment/{id}' (id=${ap.getPerson().getId()})}"
                                        class="btn btn-sm btn-success">
                                         <i class="fa fa-trash">Next phase</i>
                                     </a>
                                 </th:block>
                                 <th:block >
-                                    <a th:href="@{'/drop/{id}' (id=${ap.getApplicationID()})}"
+<!--                                    <a th:href="@{'/drop/{id}' (id=${ap.getApplicationID()})}"-->
+                                    <a th:href="@{'/commentdrop/{id}' (id=${ap.getApplicationID()})}"
                                        class="btn btn-sm btn-danger">
                                         <i class="fa fa-trash">Drop</i>
                                     </a>

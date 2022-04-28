@@ -1,9 +1,8 @@
 package finki.ukim.mk.projectv2.config;
 
-import finki.ukim.mk.projectv2.service.ApplicationService;
-import finki.ukim.mk.projectv2.service.DocService;
-import finki.ukim.mk.projectv2.service.PersonService;
-import finki.ukim.mk.projectv2.service.PhaseService;
+import finki.ukim.mk.projectv2.model.Application;
+import finki.ukim.mk.projectv2.model.Comment;
+import finki.ukim.mk.projectv2.service.*;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Component
 public class DataInitializer {
@@ -21,16 +21,18 @@ public class DataInitializer {
     private final PersonService personService;
     private final PhaseService phaseService;
     private final DocService docService;
+    private final CommentService commentService;
 
-    public DataInitializer(ApplicationService applicationService, PersonService personService, PhaseService phaseService, DocService docService) {
+    public DataInitializer(ApplicationService applicationService, PersonService personService, PhaseService phaseService, DocService docService, CommentService commentService) {
         this.applicationService = applicationService;
         this.personService = personService;
         this.phaseService = phaseService;
         this.docService = docService;
+        this.commentService = commentService;
     }
 
     @PostConstruct
-    public void initData() throws FileNotFoundException {
+    public void initData() throws FileNotFoundException, InterruptedException {
 //        Phase first=new Phase("First","First phase");
 //        Phase second=new Phase("Second","Second phase");
 //
@@ -80,6 +82,18 @@ public class DataInitializer {
         this.applicationService.save(personService.findByMail("dimitarbetinski@gmail.com").get());
         this.applicationService.save(personService.findByMail("predragspasovski98@gmail.com").get());
 
+        Application dimceApp=this.applicationService.findById(1L).get();
+        Application pepeApp=this.applicationService.findById(2L).get();
+
+        this.commentService.save(dimceApp,1L,"phase 1 comment1","Pepe");
+        this.commentService.save(dimceApp,1L,"phase 1 comment2","Pepe");
+        this.commentService.save(dimceApp,2L,"phase 2 commend1","Pepe");
+
+        this.commentService.save(pepeApp,1L,"phase 1 comment1","Pepe");
+        this.commentService.save(pepeApp,2L,"phase 2 comment1","Pepe");
+        this.commentService.save(pepeApp,2L,"phase 2 commend2","Pepe");
+
+        List<Comment> c=this.commentService.findByApplicationId(1L);
 
         this.personService.findByMail("dimitarbetinski@gmail.com").get().setPhaseAndPhaseNumber(phaseService.findAll().get(0));
         this.personService.findByMail("predragspasovski98@gmail.com").get().setPhaseAndPhaseNumber(phaseService.findAll().get(1));
