@@ -34,8 +34,12 @@
         <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email"
                required="required">
         <h5 class="card-title">Enter your ticket ID (Application ID)</h5>
-        <input type="text" class="form-control" name="ticket" id="ticket" placeholder="Ticket ID" required="required">
-        <button type="submit" class="btn btn-primary">Check you application</button>
+        <input type="number" class="form-control" name="ticket" id="ticket" placeholder="Ticket ID" required="required">
+        <button type="submit" class="btn btn-primary btn-block mb-3">Check you application</button>
+        <a th:href="@{'/jobs'}"
+           class="btn btn-secondary btn-block mb-3">
+            <i class="fa fa-trash">Back</i>
+        </a>
     </div>
     </form>
     <div class="card-footer text-muted">

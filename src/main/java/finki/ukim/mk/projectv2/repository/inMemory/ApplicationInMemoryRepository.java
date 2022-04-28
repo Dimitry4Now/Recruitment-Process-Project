@@ -3,6 +3,7 @@ package finki.ukim.mk.projectv2.repository.inMemory;
 
 import finki.ukim.mk.projectv2.bootstrap.DataHolder;
 import finki.ukim.mk.projectv2.model.Application;
+import finki.ukim.mk.projectv2.model.OpenJobPosition;
 import finki.ukim.mk.projectv2.model.Person;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ public class ApplicationInMemoryRepository {
     }
 
     public Optional<Application> save(Person person){
-        Application application=new Application(person);
+        Application application=new Application(person,new OpenJobPosition("test","test1"));
         DataHolder.applications.add(application);
         return Optional.of(application);
     }

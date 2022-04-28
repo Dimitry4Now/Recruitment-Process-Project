@@ -2,6 +2,7 @@ package finki.ukim.mk.projectv2.config;
 
 import finki.ukim.mk.projectv2.model.Application;
 import finki.ukim.mk.projectv2.model.Comment;
+import finki.ukim.mk.projectv2.model.OpenJobPosition;
 import finki.ukim.mk.projectv2.service.*;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
@@ -22,13 +23,15 @@ public class DataInitializer {
     private final PhaseService phaseService;
     private final DocService docService;
     private final CommentService commentService;
+    private final OpenJobPositionService openJobPositionService;
 
-    public DataInitializer(ApplicationService applicationService, PersonService personService, PhaseService phaseService, DocService docService, CommentService commentService) {
+    public DataInitializer(ApplicationService applicationService, PersonService personService, PhaseService phaseService, DocService docService, CommentService commentService, OpenJobPositionService openJobPositionService) {
         this.applicationService = applicationService;
         this.personService = personService;
         this.phaseService = phaseService;
         this.docService = docService;
         this.commentService = commentService;
+        this.openJobPositionService = openJobPositionService;
     }
 
     @PostConstruct
@@ -79,8 +82,11 @@ public class DataInitializer {
 //        this.personService.findByMail("dimitarbetinski@gmail.com").get().setPhase(phaseService.findAll().get(0));
 //        this.personService.findByMail("predragspasovski98@gmail.com").get().setPhase(phaseService.findAll().get(1));
 
-        this.applicationService.save(personService.findByMail("dimitarbetinski@gmail.com").get());
-        this.applicationService.save(personService.findByMail("predragspasovski98@gmail.com").get());
+        OpenJobPosition job1=this.openJobPositionService.save("Job1","Job1 Description").get();
+        OpenJobPosition job2=this.openJobPositionService.save("Job2","Job2 Description").get();
+
+        this.applicationService.save(personService.findByMail("dimitarbetinski@gmail.com").get(),job1);
+        this.applicationService.save(personService.findByMail("predragspasovski98@gmail.com").get(),job2);
 
         Application dimceApp=this.applicationService.findById(1L).get();
         Application pepeApp=this.applicationService.findById(2L).get();

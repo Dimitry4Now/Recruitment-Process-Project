@@ -3,11 +3,8 @@ package finki.ukim.mk.projectv2.web;
 import finki.ukim.mk.projectv2.model.Application;
 import finki.ukim.mk.projectv2.model.Person;
 import finki.ukim.mk.projectv2.model.Phase;
-import finki.ukim.mk.projectv2.service.ApplicationService;
-import finki.ukim.mk.projectv2.service.CommentService;
-import finki.ukim.mk.projectv2.service.PhaseService;
+import finki.ukim.mk.projectv2.service.*;
 import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
-import finki.ukim.mk.projectv2.service.PersonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,48 +25,13 @@ public class ApplicationController {
     private final PhaseService phaseService;
     private final CommentService commentService;
 
-    public ApplicationController(PersonService personService, ApplicationService applicationService, EmailServiceImpl emailServiceImpl, PhaseService phaseService, CommentService commentService) {
+    public ApplicationController(PersonService personService, ApplicationService applicationService,
+                                 EmailServiceImpl emailServiceImpl, PhaseService phaseService, CommentService commentService) {
         this.personService = personService;
         this.applicationService = applicationService;
         this.emailServiceImpl = emailServiceImpl;
         this.phaseService = phaseService;
         this.commentService = commentService;
-    }
-    @GetMapping({"/form",""})
-    public String getForm(){
-        return "form";
-    }
-
-    @PostMapping("/form")
-    public String postForm(@RequestParam String name,
-                           @RequestParam String surname,
-                           @RequestParam String mail,
-                           @RequestParam int age) throws MessagingException {
-//        this.personService.save(name,surname,mail,age);
-        this.personService.saveWithPhase(name,surname,mail,age,phaseService.findById(1L).get());
-//        this.personService.saveWithPhase(name,surname,mail,age,phaseService.findAll().get(0));
-        if(personService.findByMail(mail).isPresent()) {
-            this.applicationService.save(personService.findByMail(mail).get());
-        }
-        //Send mail after application with App  lication ID(ticket)
-        Long personID=personService.findByMail(mail).get().getId();
-        Long applicationID=applicationService.findByPersonId(personID).get().getApplicationID();
-
-//        this.emailServiceImpl.sendSimpleMessage(mail, "Recruitment process(WP-project)", "Hello "+name+
-//                "\n\nThank you for your application" +
-//                "\n Your application ID(ticket) is "+applicationID+
-//                "\n\n Recruitment process team");
-
-        //Send mail with attachment after application with Application ID(ticket)
-//        this.emailServiceImpl.sendMessageWithAttachment(mail,
-//                "Recruitment process(WP-project)",
-//                "Hello "+name+
-//                "\n\nThank you for your application" +
-//                "\n Your application ID(ticket) is "+applicationID+
-//                "\n\n Recruitment process team",
-//                "C:\\Users\\dimit\\Desktop\\Dimitar_Betinski.pdf");
-
-        return "redirect:/showApplications";
     }
 
     @GetMapping("/showApplications")
@@ -86,26 +48,6 @@ public class ApplicationController {
         model.addAttribute("applications",applications);
         model.addAttribute("phases",phases);
         return "applications";
-    }
-
-    @GetMapping("/ticket")
-    public String getTicketForm(){
-        return "ticket";
-    }
-
-    @PostMapping("/ticket")
-    public String postForm(@RequestParam String email,
-                           @RequestParam int ticket,
-                           Model model){
-        Optional<Application> application =this.applicationService.containMailAndId(email, (long) ticket);
-        if(application.isPresent()){
-            model.addAttribute("ticketInfo",application.get().showDataTicket());
-            return "ticketInfo";
-        }
-        else {
-            model.addAttribute("error","Invalid email or ticket ID" );
-            return "ticket";
-        }
     }
 
     @GetMapping("/comment/{id}")

@@ -43,10 +43,9 @@
     <div class="w-50 card text-center">
         <div class="card-header">
             <h3>Welcome to our website</h3>
-            <h3>Konkurs:Testing</h3>
-            <h3>Hello, here you can apply for job-27</h3>
+            <h3>Hello, here you can apply for </h3> <th:block th:text="${jobName}"></th:block>
         </div>
-        <form th:method="Post" th:action="@{/form}">
+        <form th:method="Post" th:action="@{/jobs/apply}">
         <div class="card-body">
             <h4 class=" m-2 t-3" >
                 <label for="name" class="form-label">Name</label>
@@ -72,7 +71,10 @@
                 <label for="desc" class="form-label">Description</label>
                 <textarea id="desc" name="desc" rows="4" class="form-control"></textarea>
             </h4>
-            <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+            <input type="text" name="jobId" th:value="${jobId}" hidden/>
+            <button type="submit" class="btn btn-primary btn-block mb-3">Submit</button>
+            <a th:href="@{'/jobs'}" class="btn btn-secondary btn-block mb-3">
+                <i class="fa fa-trash">Back to jobs</i></a>
         </div>
         </form>
         <div class="card-footer text-muted">

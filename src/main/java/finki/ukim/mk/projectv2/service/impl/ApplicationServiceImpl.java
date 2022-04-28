@@ -2,6 +2,7 @@ package finki.ukim.mk.projectv2.service.impl;
 
 
 import finki.ukim.mk.projectv2.model.Application;
+import finki.ukim.mk.projectv2.model.OpenJobPosition;
 import finki.ukim.mk.projectv2.model.Person;
 import finki.ukim.mk.projectv2.model.exceptions.ApplicationNotFoundException;
 import finki.ukim.mk.projectv2.model.exceptions.PersonNotFoundException;
@@ -34,8 +35,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Optional<Application> save(Person person) {
-        return Optional.of(this.applicationRepository.save(new Application(person)));
+    public Optional<Application> save(Person person, OpenJobPosition jobPosition) {
+        return Optional.of(this.applicationRepository.save(new Application(person,jobPosition)));
     }
 
     @Override

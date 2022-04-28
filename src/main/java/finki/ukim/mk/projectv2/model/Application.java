@@ -1,7 +1,6 @@
 package finki.ukim.mk.projectv2.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.*;
@@ -19,15 +18,25 @@ public class Application {
     private Person person;
 
     @OneToMany(mappedBy = "application",fetch = FetchType.EAGER)
-    List<Comment> comments;
+    private List<Comment> comments;
+
+    @ManyToOne
+    private OpenJobPosition jobPosition;
 
     private boolean active;
 
-    public Application(Person person) {
+    public Application(Person person, OpenJobPosition jobPosition) {
         this.person = person;
-        comments=new ArrayList<>();
+        this.jobPosition = jobPosition;
+        this.comments=new ArrayList<>();
         this.active=true;
     }
+
+//    public Application(Person person) {
+//        this.person = person;
+//        comments=new ArrayList<>();
+//        this.active=true;
+//    }
 
     public String showData(){
         StringBuilder sb=new StringBuilder();
