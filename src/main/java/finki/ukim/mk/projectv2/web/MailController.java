@@ -67,15 +67,21 @@ public class MailController {
     @PostMapping("/send")
     public String send(@RequestParam String subject,
                        @RequestParam String body,
+                       @RequestParam(required = false)MultipartFile[] attachment,
                        @RequestParam String mail,
-                       @RequestParam(required = false) String mails,
-                       @RequestParam(required = false) MultipartFile[] attachment) {
+                       @RequestParam(required = false) String mails
+                       ) throws IOException, MessagingException {
         if(mails.equals("")) {
             if (this.personService.findByMail(mail).isPresent()) {
                 String name = this.personService.findByMail(mail).get().getName();
-                //TODO: sendMail with attachment if uploaded
-                this.emailServiceImpl.sendSimpleMessage(mail, subject, "Hello " + name + "\n" + body +
-                        "\n Recruitment process team");
+                if(attachment==null){ //todo: fix attachment null always true
+                    this.emailServiceImpl.sendSimpleMessage(mail, subject, "Hello " + name + "\n" + body +
+                            "\n Recruitment process team");
+                }
+                else {
+                    this.emailServiceImpl.sendTask(mail, subject, "Hello " + name + "\n" + body +
+                            "\n Recruitment process team",attachment[0].getBytes());
+                }
                 return "redirect:/showApplications";
             }
             else return "redirect:/showApplications?error=NotValidMail";
@@ -86,10 +92,17 @@ public class MailController {
                     persons.add(applicationService.findById(Long.parseLong(s)).get().getPerson());
                 }
 
-            for (Person p :
-                    persons) {
-                this.emailServiceImpl.sendSimpleMessage(p.getMail(), subject, "Hello " + p.getName() + "\n" + body +
-                        "\n Recruitment process team");
+            if(attachment==null){
+                for (Person p : persons) {
+                    this.emailServiceImpl.sendSimpleMessage(p.getMail(), subject, "Hello " + p.getName() + "\n" + body +
+                            "\n Recruitment process team");
+                }
+            }
+            else {
+                for (Person p : persons) {
+                    this.emailServiceImpl.sendTask(p.getMail(), subject, "Hello " + p.getName() + "\n" + body +
+                            "\n Recruitment process team",attachment[0].getBytes());
+                }
             }
             return "redirect:/showApplications";
         }
