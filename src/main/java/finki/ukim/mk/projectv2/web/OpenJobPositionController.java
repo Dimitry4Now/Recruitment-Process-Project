@@ -8,6 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 @Controller
@@ -29,17 +32,19 @@ public class OpenJobPositionController {
 
 
     @GetMapping("")
-    public String getJobs(Model model) {
+    public String getJobs(Model model, HttpSession session) {
         List<OpenJobPosition> jobs = this.openJobPositionService.findAll();
         model.addAttribute("jobs", jobs);
+        session.setAttribute("test","Hello this is a message from session");
         return "openJobsPositions";
     }
 
     @GetMapping("/apply/{id}")
-    public String getApplyFormJob(@PathVariable("id") Long jobId, Model model) {
+    public String getApplyFormJob(@PathVariable("id") Long jobId, Model model,HttpSession session) {
         String jobName = this.openJobPositionService.findById(jobId).get().getName();
         model.addAttribute("jobId", jobId);
         model.addAttribute("jobName", jobName);
+        String s=session.getAttribute("test").toString();
         return "applyForm";
     }
 
