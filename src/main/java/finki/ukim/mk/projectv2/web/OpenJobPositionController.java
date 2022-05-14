@@ -76,4 +76,11 @@ public class OpenJobPositionController {
         this.openJobPositionService.save(name, desc);
         return "redirect:/jobs";
     }
+
+    @GetMapping("/mailTemplate/{id}")
+    public String mailTemplate(@PathVariable Long id, Model model){
+        OpenJobPosition job = this.openJobPositionService.findById(id).get();
+        model.addAttribute("job", job);
+        return "mailTemplate";
+    }
 }

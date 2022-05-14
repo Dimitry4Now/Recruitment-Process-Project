@@ -47,8 +47,8 @@
                                 </a>
                             </th:block>
                             <th:block>
-                                <!--                                todo:Applay with mail-->
-                                <a th:href="@{'/jobs'}"
+                                <!--                                todo:Apply with mail-->
+                                <a th:href="@{'jobs/mailTemplate/{id}' (id=${job.getId()})}"
                                    class="btn btn-sm btn-primary">
                                     <i class="fa fa-trash">Apply with mail</i>
                                 </a>

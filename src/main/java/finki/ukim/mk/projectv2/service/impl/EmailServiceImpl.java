@@ -84,7 +84,6 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void check() {
         try {
-
             String host = "pop.gmail.com";// change accordingly
             String user = "recruitment.process.project@gmail.com";// change accordingly
             String password = "zqrnakwkklanbobb";// change accordingly
@@ -117,6 +116,14 @@ public class EmailServiceImpl implements EmailService {
                 System.out.println("Subject: " + message.getSubject());
                 System.out.println("From: " + message.getFrom()[0]);
                 System.out.println("Text: " + message.getContent().toString());
+
+                Address sender = message.getFrom()[0];
+                String[] parts = sender.toString().split("<");
+                System.out.println(parts[0]);
+                System.out.println(parts[1].substring(0, parts[1].length()-1));
+                String subject = message.getSubject();
+                System.out.println(subject);
+
 
             }
 
