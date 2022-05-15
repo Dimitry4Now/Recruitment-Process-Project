@@ -42,6 +42,9 @@ public class PersonServiceImpl implements PersonService {
     public Optional<Person> saveWithPhase(String name, String surname, String mail, int age, Phase phase) {
         return Optional.of(this.personRepository.save(new Person(name,surname,mail,age,phase)));
     }
+    public Optional<Person> saveWithPhaseNoAge(String name, String surname, String mail, Phase phase) {
+        return Optional.of(this.personRepository.save(new Person(name,surname,mail,phase)));
+    }
 
     @Override
     public void delete(String email) {

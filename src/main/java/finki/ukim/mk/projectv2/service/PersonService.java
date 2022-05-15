@@ -12,6 +12,7 @@ public interface PersonService {
     Optional<Person> findByMail(String mail);
     Optional<Person> save(String name, String surname, String mail, int age);
     Optional<Person> saveWithPhase(String name, String surname, String mail, int age, Phase phase);
+    public Optional<Person> saveWithPhaseNoAge(String name, String surname, String mail, Phase phase);
     void delete(String email);
     void incrementPhase(Long personId);
 }

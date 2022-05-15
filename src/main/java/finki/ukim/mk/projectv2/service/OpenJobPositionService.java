@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface OpenJobPositionService {
     List<OpenJobPosition> findAll();
     Optional<OpenJobPosition> findById(Long id);
+    Optional<OpenJobPosition> findByName(String name);
     Optional<OpenJobPosition> save(String name,String description);
 }

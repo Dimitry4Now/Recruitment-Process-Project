@@ -27,6 +27,11 @@ public class OpenJobPositionServiceImpl implements OpenJobPositionService {
     }
 
     @Override
+    public Optional<OpenJobPosition> findByName(String name) {
+        return this.openJobPositionRepository.findByName(name);
+    }
+
+    @Override
     public Optional<OpenJobPosition> save(String name, String description) {
         return Optional.of(this.openJobPositionRepository.save(new OpenJobPosition(name,description)));
     }

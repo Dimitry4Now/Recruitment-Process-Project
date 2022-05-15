@@ -1,7 +1,9 @@
 package finki.ukim.mk.projectv2.service.impl;
 
-import finki.ukim.mk.projectv2.service.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
+import finki.ukim.mk.projectv2.model.OpenJobPosition;
+import finki.ukim.mk.projectv2.model.Person;
+import finki.ukim.mk.projectv2.model.Phase;
+import finki.ukim.mk.projectv2.service.*;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,14 +17,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Properties;
 
 
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    @Autowired
-    private JavaMailSender emailSender;
+    private final JavaMailSender emailSender;
+    private final ApplicationService applicationService;
+    private final OpenJobPositionService openJobPositionService;
+    private final PersonService personService;
+    private final PhaseService phaseService;
+
+    public EmailServiceImpl(JavaMailSender emailSender, ApplicationServiceImpl applicationService, OpenJobPositionServiceImpl openJobPositionService, PersonServiceImpl personService, PhaseService phaseService) {
+        this.emailSender = emailSender;
+        this.applicationService = applicationService;
+        this.openJobPositionService = openJobPositionService;
+        this.personService = personService;
+        this.phaseService = phaseService;
+    }
 
     public void sendSimpleMessage(String to, String subject, String message){
         SimpleMailMessage message1 = new SimpleMailMessage();
@@ -120,9 +134,39 @@ public class EmailServiceImpl implements EmailService {
                 Address sender = message.getFrom()[0];
                 String[] parts = sender.toString().split("<");
                 System.out.println(parts[0]);
-                System.out.println(parts[1].substring(0, parts[1].length()-1));
+
+                String[] nameSurname = parts[0].split(" ");
+
+                String mail = parts[1].substring(0, parts[1].length()-1);
+                System.out.println(mail);
+
                 String subject = message.getSubject();
                 System.out.println(subject);
+
+                Phase phase = this.phaseService.findById(1L).get();
+
+                Optional<Person> p = this.personService.saveWithPhaseNoAge(nameSurname[0], "", mail, phase);
+
+                String ojpname;
+                int pom = subject.lastIndexOf(']');
+                if(pom != -1){
+                     ojpname = subject.substring(1, pom);
+                }
+                else ojpname = "oopsie";
+
+                Optional<OpenJobPosition> ojp = this.openJobPositionService.findByName(ojpname);
+                if(ojp.isEmpty()){
+                    sendSimpleMessage(mail, "Application Failed", "Dear " + parts[0] +
+                            ", you have not formatted your email correctly. That is why your application has been declined." +
+                            "" +
+                            "" +
+                            "Greetings," +
+                            "Recruitment Process Team");
+                }
+                else{
+                    p.ifPresent(person -> this.applicationService.save(person, ojp.get()));
+                    sendSimpleMessage(mail, "Successful Application", "Successfully Applied !");
+                }
 
 
             }

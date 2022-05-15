@@ -30,6 +30,14 @@ public class Person {
         this.phase = phase;
         this.phaseNumber=phase.getPhaseNumber();
     }
+    public Person(String name, String surname, String mail, Phase phase) {
+//        this.id = (long) (Math.random() * 100);
+        this.name = name;
+        this.surname = surname;
+        this.mail = mail;
+        this.phase = phase;
+        this.phaseNumber=phase.getPhaseNumber();
+    }
     public Person(String name, String surname, String mail, int age) {
 //        this.id = (long) (Math.random() * 100);
         this.name = name;
