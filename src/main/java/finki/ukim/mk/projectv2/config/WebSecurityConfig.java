@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/h2**"); // do not remove this line
         // TODO: If you are implementing the security requirements, remove this following line
-        web.ignoring().antMatchers("/**");
+//        web.ignoring().antMatchers("/**");
     }
 
     @Override
@@ -32,21 +32,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/jobs", "/ticket", "/uploadCv").permitAll()
+                .antMatchers("/", "/jobs","/jobs/**", "/ticket", "/uploadCv","/apply").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .failureUrl("/login?error=BadCredentials")
-                .defaultSuccessUrl("/products", true)
+                .defaultSuccessUrl("/showApplications", true)
                 .and()
                 .logout()
                 .logoutUrl("/logout")
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/jobs")
                 .and()
                 .exceptionHandling().accessDeniedPage("/access_denied");
 
@@ -55,9 +55,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("kostadin.mishev")
-                .password(passwordEncoder.encode("km"))
-                .authorities("ROLE_USER")
+                .withUser("headAdmin")
+                .password(passwordEncoder.encode("ha"))
+                .authorities("ROLE_ADMIN")
                 .and()
                 .withUser("admin")
                 .password(passwordEncoder.encode("admin"))

@@ -24,23 +24,20 @@ public class DataInitializer {
     private final DocService docService;
     private final CommentService commentService;
     private final OpenJobPositionService openJobPositionService;
+    private final AuthService authService;
 
-    public DataInitializer(ApplicationService applicationService, PersonService personService, PhaseService phaseService, DocService docService, CommentService commentService, OpenJobPositionService openJobPositionService) {
+    public DataInitializer(ApplicationService applicationService, PersonService personService, PhaseService phaseService, DocService docService, CommentService commentService, OpenJobPositionService openJobPositionService, AuthService authService) {
         this.applicationService = applicationService;
         this.personService = personService;
         this.phaseService = phaseService;
         this.docService = docService;
         this.commentService = commentService;
         this.openJobPositionService = openJobPositionService;
+        this.authService = authService;
     }
 
     @PostConstruct
     public void initData() throws FileNotFoundException, InterruptedException {
-//        Phase first=new Phase("First","First phase");
-//        Phase second=new Phase("Second","Second phase");
-//
-//        Person p1=new Person("Dimitar","Betinski","dimitarbetinski@gmail.com",24,first);
-//        Person p2=new Person("Predrag","Spasovski","predragspasovski98@gmail.com",24,second);
         Path path = Paths.get("src/main/java/finki/ukim/mk/projectv2/bootstrap/task1.pdf");
         String name = "file.txt";
         String originalFileName = "task1.pdf";
@@ -77,10 +74,6 @@ public class DataInitializer {
         this.personService.saveWithPhase("Predrag","Spasovski","predragspasovski98@gmail.com",24,
                 phaseService.findAll().get(1));
 
-//        this.personService.save("Dimitar","Betinski","dimitarbetinski@gmail.com",24);
-//        this.personService.save("Predrag","Spasovski","predragspasovski98@gmail.com",24);
-//        this.personService.findByMail("dimitarbetinski@gmail.com").get().setPhase(phaseService.findAll().get(0));
-//        this.personService.findByMail("predragspasovski98@gmail.com").get().setPhase(phaseService.findAll().get(1));
 
         OpenJobPosition job1=this.openJobPositionService.save("Job1","Job1 Description").get();
         OpenJobPosition job2=this.openJobPositionService.save("Job2","Job2 Description").get();
@@ -92,11 +85,9 @@ public class DataInitializer {
         Application pepeApp=this.applicationService.findById(2L).get();
 
         this.commentService.save(dimceApp,1L,"phase 1 comment1","Pepe");
-        this.commentService.save(dimceApp,1L,"phase 1 comment2","Pepe");
         this.commentService.save(dimceApp,2L,"phase 2 commend1","Pepe");
 
         this.commentService.save(pepeApp,1L,"phase 1 comment1","Pepe");
-        this.commentService.save(pepeApp,2L,"phase 2 comment1","Pepe");
         this.commentService.save(pepeApp,2L,"phase 2 commend2","Pepe");
 
         List<Comment> c=this.commentService.findByApplicationId(1L);
@@ -105,6 +96,8 @@ public class DataInitializer {
         this.personService.findByMail("predragspasovski98@gmail.com").get().setPhaseAndPhaseNumber(phaseService.findAll().get(1));
 
 
+        this.authService.register("admin","admin","admin","AdminName","AdminSurname");
+        this.authService.register("headAdmin","ha","ha","HeadAdminName","HeadAdminSurname");
     }
 
 }

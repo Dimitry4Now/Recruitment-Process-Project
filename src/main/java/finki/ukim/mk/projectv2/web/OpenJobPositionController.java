@@ -2,6 +2,7 @@ package finki.ukim.mk.projectv2.web;
 
 import finki.ukim.mk.projectv2.model.OpenJobPosition;
 import finki.ukim.mk.projectv2.service.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -71,12 +72,14 @@ public class OpenJobPositionController {
     }
 
     @GetMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addJobForm(Model model) {
         model.addAttribute("bodyContent","addJobForm");
         return "master-template";
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addJob(@RequestParam String name,
                          @RequestParam String desc) {
         this.openJobPositionService.save(name, desc);

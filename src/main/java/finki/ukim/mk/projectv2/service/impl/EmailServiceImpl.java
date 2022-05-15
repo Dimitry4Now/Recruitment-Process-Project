@@ -1,5 +1,7 @@
 package finki.ukim.mk.projectv2.service.impl;
 
+import com.sun.mail.imap.protocol.FLAGS;
+import finki.ukim.mk.projectv2.model.Application;
 import finki.ukim.mk.projectv2.model.OpenJobPosition;
 import finki.ukim.mk.projectv2.model.Person;
 import finki.ukim.mk.projectv2.model.Phase;
@@ -125,6 +127,7 @@ public class EmailServiceImpl implements EmailService {
 
             for (int i = 0, n = messages.length; i < n; i++) {
                 Message message = messages[i];
+                if(message.isSet(Flags.Flag.DELETED) || message.getFlags().contains(Flags.Flag.DELETED)) continue;
                 System.out.println("---------------------------------");
                 System.out.println("Email Number " + (i + 1));
                 System.out.println("Subject: " + message.getSubject());
@@ -164,11 +167,19 @@ public class EmailServiceImpl implements EmailService {
                             "Recruitment Process Team");
                 }
                 else{
-                    p.ifPresent(person -> this.applicationService.save(person, ojp.get()));
+                    p.ifPresent(person -> {
+                        Application a=this.applicationService.save(person, ojp.get()).get();
+                        sendSimpleMessage(mail, "Recruitment process(WP-project)", "Hello Mrs/Mr " +
+                                "\n\nThank you for your application" +
+                                "\n Your application ID(ticket) is " + a.getApplicationID() +
+                                "\n\n Recruitment process team");
+
+                    } );
                     sendSimpleMessage(mail, "Successful Application", "Successfully Applied !");
+
                 }
-
-
+                message.setFlag(Flags.Flag.DELETED,true);
+                System.out.println(message.isSet(Flags.Flag.DELETED));
             }
 
             //close the store and folder objects
