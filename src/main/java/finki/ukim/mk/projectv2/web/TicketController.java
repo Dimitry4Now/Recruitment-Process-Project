@@ -21,8 +21,9 @@ public class TicketController {
     }
 
     @GetMapping()
-    public String getTicketForm() {
-        return "ticket";
+    public String getTicketForm(Model model) {
+        model.addAttribute("bodyContent","ticket");
+        return "master-template";
     }
 
     @PostMapping()
@@ -30,12 +31,18 @@ public class TicketController {
                                  @RequestParam Long ticket,
                                  Model model) {
         Optional<Application> application = this.applicationService.containMailAndId(email,ticket);
+
         if (application.isPresent()) {
             model.addAttribute("ticketInfo", application.get().showDataTicket());
-            return "ticketInfo";
+            model.addAttribute("bodyContent","ticketInfo");
+            model.addAttribute("phaseNumber",application.get().getPerson().getPhaseNumber());
+            model.addAttribute("personId",application.get().getPerson().getId());
+            model.addAttribute("ticketInfo", application.get().showData());
+            model.addAttribute("ticketComments", application.get().getComments());
         } else {
             model.addAttribute("error", "Invalid email or ticket ID");
-            return "ticket";
+            model.addAttribute("bodyContent","ticket");
         }
+        return "master-template";
     }
 }

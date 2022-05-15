@@ -8,7 +8,7 @@ import java.util.Optional;
 
 
 public interface DocService {
-    public Doc saveFile(MultipartFile file);
+    public Doc saveFile(MultipartFile file,String fileName);
     public Optional<Doc> getFile(Integer fileId);
     public List<Doc> getFiles();
 }

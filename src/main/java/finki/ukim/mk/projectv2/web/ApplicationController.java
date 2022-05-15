@@ -47,20 +47,23 @@ public class ApplicationController {
 
         model.addAttribute("applications",applications);
         model.addAttribute("phases",phases);
-        return "applications";
+        model.addAttribute("bodyContent","applications");
+        return "master-template";
     }
 
     @GetMapping("/comment/{id}")
     public String showCommentForm(@PathVariable("id") String personId, Model model) {
         model.addAttribute("personId", personId);
-        return "commentForm";
+        model.addAttribute("bodyContent","commentForm");
+        return "master-template";
     }
 
     @GetMapping("/commentdrop/{id}")
     public String showCommentFormDrop(@PathVariable("id") String personId, Model model) {
         model.addAttribute("personId", personId);
         model.addAttribute("drop", true);
-        return "commentForm";
+        model.addAttribute("bodyContent","commentForm");
+        return "master-template";
     }
 
     @PostMapping(value = "/comment", params = "next")  //button->name=next

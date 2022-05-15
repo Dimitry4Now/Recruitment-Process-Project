@@ -2,15 +2,11 @@ package finki.ukim.mk.projectv2.web;
 
 import finki.ukim.mk.projectv2.model.OpenJobPosition;
 import finki.ukim.mk.projectv2.service.*;
-import finki.ukim.mk.projectv2.service.impl.EmailServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
 import java.util.List;
 
 @Controller
@@ -36,16 +32,20 @@ public class OpenJobPositionController {
         List<OpenJobPosition> jobs = this.openJobPositionService.findAll();
         model.addAttribute("jobs", jobs);
         session.setAttribute("test","Hello this is a message from session");
-        return "openJobsPositions";
+        model.addAttribute("bodyContent","openJobsPositions");
+        return "master-template";
     }
 
     @GetMapping("/apply/{id}")
     public String getApplyFormJob(@PathVariable("id") Long jobId, Model model,HttpSession session) {
         String jobName = this.openJobPositionService.findById(jobId).get().getName();
+        String jobDesc = this.openJobPositionService.findById(jobId).get().getDescription();
         model.addAttribute("jobId", jobId);
         model.addAttribute("jobName", jobName);
-        String s=session.getAttribute("test").toString();
-        return "applyForm";
+//        String s=session.getAttribute("test").toString();
+        model.addAttribute("bodyContent","applyForm");
+        model.addAttribute("jobDesc", jobDesc);
+        return "master-template";
     }
 
     @PostMapping("/apply")
@@ -71,8 +71,9 @@ public class OpenJobPositionController {
     }
 
     @GetMapping("/add")
-    public String addJobForm() {
-        return "addJobForm";
+    public String addJobForm(Model model) {
+        model.addAttribute("bodyContent","addJobForm");
+        return "master-template";
     }
 
     @PostMapping("/add")
@@ -86,6 +87,7 @@ public class OpenJobPositionController {
     public String mailTemplate(@PathVariable Long id, Model model){
         OpenJobPosition job = this.openJobPositionService.findById(id).get();
         model.addAttribute("job", job);
-        return "mailTemplate";
+        model.addAttribute("bodyContent","mailTemplate");
+        return "master-template";
     }
 }

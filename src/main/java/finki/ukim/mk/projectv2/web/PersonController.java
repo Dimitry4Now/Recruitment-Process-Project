@@ -39,7 +39,8 @@ public class PersonController {
 
         model.addAttribute("persons",persons);
         model.addAttribute("phases",phases);
-        return "persons";
+        model.addAttribute("bodyContent","persons");
+        return "master-template";
     }
 
     @GetMapping("delete/{mail}")
@@ -59,7 +60,8 @@ public class PersonController {
             List<Application> applications=applicationService.findAll();
 
             model.addAttribute("applications",applications);
-            return "applications";
+            model.addAttribute("bodyContent","applications");
+            return "master-template";
         }
         return "redirect:/showApplications";
     }

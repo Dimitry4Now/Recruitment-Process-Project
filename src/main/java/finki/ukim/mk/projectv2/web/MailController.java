@@ -37,7 +37,8 @@ public class MailController {
     @GetMapping("/mailform/{mail}")
     public String ShowMailForm(@PathVariable String mail,Model model) {
         model.addAttribute("mail",mail);
-        return "mailForm";
+        model.addAttribute("bodyContent","mailForm");
+        return "master-template";
     }
     @GetMapping("/mailFormAll")
     public String ShowMailFormAll(@RequestParam(required = false) String allMail,Model model) {
@@ -47,7 +48,8 @@ public class MailController {
             System.out.println("Oopsie, you selected nobody !");
             return "redirect:/showApplications?error=Oopsie, you selected nobody !";
         }
-        return "mailForm";
+        model.addAttribute("bodyContent","mailForm");
+        return "master-template";
     }
 //    @PostMapping("/send")
 //    public String send(@RequestParam String subject,

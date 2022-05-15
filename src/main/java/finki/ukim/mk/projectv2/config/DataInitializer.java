@@ -52,7 +52,7 @@ public class DataInitializer {
         }
         MultipartFile file = new MockMultipartFile(name,
                 originalFileName, contentType, content);
-        this.docService.saveFile(file);
+        this.docService.saveFile(file,"task1");
 
         Path path1 = Paths.get("src/main/java/finki/ukim/mk/projectv2/bootstrap/task2.txt");
         String name1 = "file2.txt";
@@ -65,7 +65,7 @@ public class DataInitializer {
         }
         MultipartFile file1 = new MockMultipartFile(name1,
                 originalFileName1, contentType1, content1);
-        this.docService.saveFile(file1);
+        this.docService.saveFile(file1,"task2");
 
         this.phaseService.save("First","First phase",1L);
         this.phaseService.save("Second","Second phase",2L);

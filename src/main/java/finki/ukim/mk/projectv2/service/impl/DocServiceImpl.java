@@ -19,10 +19,9 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public Doc saveFile(MultipartFile file) {
-        String docname = file.getOriginalFilename();
+    public Doc saveFile(MultipartFile file,String fileName) {
         try {
-            Doc doc = new Doc(docname, file.getContentType(), file.getBytes());
+            Doc doc = new Doc(fileName, file.getContentType(), file.getBytes());
             return docRepository.save(doc);
         } catch (IOException e) {
             e.printStackTrace();
