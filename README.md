@@ -35,3 +35,5 @@ For the testing purposes of this project, we have only one ROLE_ADMIN account.
 * HTML5
 * CSS
 * MVC Design Pattern
+
+Built by [Predrag Spasovski](https://github.com/predrag1998) and [Dimitar Betinski](https://github.com/dimitry4now) as team project.
