@@ -36,4 +36,6 @@ For the testing purposes of this project, we have only one ROLE_ADMIN account.
 * CSS
 * MVC Design Pattern
 
+[DEMO - General functionality](https://youtu.be/Ev6Mb65Mx5o)
+
 Built by [Predrag Spasovski](https://github.com/predrag1998) and [Dimitar Betinski](https://github.com/dimitry4now) as team project.
